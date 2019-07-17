@@ -2,6 +2,20 @@
 client_id = "c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS" # static id
 robinhood_version = "1.275.0"
 
+# instruments
+option_instruments = [
+  { "name": 'strike_price', "width": 15, "formatting": {}, "cell_type": "number" },
+  { "name": 'chain_symbol', "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": 'option_type', "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": 'expiration_date', "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": 'created_at', "width": 15, "formatting": {}, "cell_type": "string" },
+]
+
+order_instruments = [
+  { "name": 'simple_name', "width": 40, 'formatting': {}, "cell_type": "string" },
+  { "name": 'symbol', "width": 10, 'formatting': {}, "cell_type": "string" },
+]
+
 # dividends
 json_directory_dividends = 'data/dividends/'
 xlsx_filename_dividends = 'xlsx/dividends.xlsx'
@@ -18,15 +32,16 @@ selected_keys_dividends = [
 json_directory_options = 'data/options/'
 xlsx_filename_options = 'xlsx/options.xlsx'
 selected_keys_options = [
-  "quantity",
-  "processed_premium",
-  "closing_strategy",
-  "price",
-  "premium",
-  "direction",
-  "position_effect",
-  "side",
-  "opening_strategy",
+  { "name": "quantity", "width": 15, "formatting": {}, "cell_type": "number" },
+  { "name": "processed_premium", "width": 15, "formatting": {}, "cell_type": "number" },
+  { "name": "closing_strategy", "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": "price", "width": 15, "formatting": {}, "cell_type": "number" },
+  { "name": "premium", "width": 15, "formatting": {}, "cell_type": "number" },
+  { "name": "direction", "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": "position_effect", "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": "side", "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": "opening_strategy", "width": 15, "formatting": {}, "cell_type": "string" },
+  *option_instruments,
 ]
 
 # orders
@@ -39,9 +54,7 @@ selected_keys_orders = [
   # executions
   { "name": 'settlement_date', "width": 15, 'formatting': {}, "cell_type": "string" },
   { "name": 'price', "width": 10, 'formatting': {}, "cell_type": "number" },
-  # instruments TODO: prob can move this somewhere else
-  { "name": 'simple_name', "width": 40, 'formatting': {}, "cell_type": "string" },
-  { "name": 'symbol', "width": 10, 'formatting': {}, "cell_type": "string" },
+  *order_instruments,
 ]
 
 # events
@@ -53,10 +66,5 @@ selected_keys_events = [
   { "name": 'type', "width": 15, "formatting": {}, "cell_type": "string" },
   { "name": 'total_cash_amount', "width": 15, "formatting": {}, "cell_type": "number" },
   { "name": 'quantity', "width": 15, "formatting": {}, "cell_type": "number" },
-  # instruments
-  { "name": 'strike_price', "width": 15, "formatting": {}, "cell_type": "number" },
-  { "name": 'chain_symbol', "width": 15, "formatting": {}, "cell_type": "string" },
-  { "name": 'option_type', "width": 15, "formatting": {}, "cell_type": "string" },
-  { "name": 'expiration_date', "width": 15, "formatting": {}, "cell_type": "string" },
-  { "name": 'created_at', "width": 15, "formatting": {}, "cell_type": "string" },
+  *option_instruments,
 ]
