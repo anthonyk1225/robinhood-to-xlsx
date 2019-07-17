@@ -1,11 +1,4 @@
-import csv, xlsxwriter
-
-# TODO: DEPRECATE
-def write_to_file(file_name, keys, rows):
-  with open(file_name, 'w') as output_file:
-    dict_writer = csv.DictWriter(output_file, keys)
-    dict_writer.writeheader()
-    dict_writer.writerows(rows)
+import xlsxwriter
 
 def create_workbook(file_name):
   workbook = xlsxwriter.Workbook(file_name)

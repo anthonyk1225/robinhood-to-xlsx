@@ -32,6 +32,7 @@ def create_headers():
         return { "Authorization": 'Bearer {token}'.format(token=generated_bearer_token) }
 
     headers = { "Authorization": 'Bearer {token}'.format(token=bearer_token[0][0]) }
+    # TODO: remove this
     test = requests.get(
         "https://api.robinhood.com/fundamentals/MSFT/",
         headers=headers
