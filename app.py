@@ -1,16 +1,16 @@
 import inquirer
 from controllers import\
     dividends_to_xlsx,\
-        options_to_csv,\
-            events_to_csv,\
-                orders_to_csv,\
+        options_to_xlsx,\
+            events_to_xlsx,\
+                orders_to_xlsx,\
                     fetch_user_json
 
 xlsx_generators = {
     'dividends': dividends_to_xlsx.run,
-    'events': events_to_csv.run,
-    'options': options_to_csv.run,
-    'orders': orders_to_csv.run,
+    'events': events_to_xlsx.run,
+    'options': options_to_xlsx.run,
+    'orders': orders_to_xlsx.run,
 }
 
 reports = {
