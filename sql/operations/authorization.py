@@ -47,7 +47,7 @@ def update_bearer_token(bearer_token):
     command = "UPDATE authorization\
         SET bearer_token='{}'\
         where user_id=1;".format(bearer_token)
-    print(command)
+
     cursor = conn.execute(command)
     conn.commit()
     conn.close()
