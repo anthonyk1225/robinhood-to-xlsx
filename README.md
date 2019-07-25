@@ -23,7 +23,11 @@ After forking, cloning into wherever
 - Type `document.cookie` in the console and copy your `device_token`
 - Update `device_token` in `credentials.py` to what was in `document.cookie` for `device_token`
 
+![](https://pbs.twimg.com/media/DOKNxxPVAAAbun0.jpg)
 
+## Running
+
+`(venv) aragorn$ python3 app.py`
 
 ## Why even have this?
 Good question. This will allow you to easily download your history from robinhood and export it to a xlsx file, all for easy viewing.
