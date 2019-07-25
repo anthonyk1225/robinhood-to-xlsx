@@ -11,28 +11,37 @@ You are going to need / want to use
 ## Installation
 
 After forking, cloning into wherever
-`cooldude$ cd to/wherever/it/is`
-`cooldude$ virtualenv venv`
-`cooldude$ source venv/bin/activate`
-`(venv) cooldude$ pip3 install -r requirements.txt`
+```
+legolas$ cd to/wherever/it/is
+legolas$ virtualenv venv
+legolas$ source venv/bin/activate
+(venv) legolas$ pip3 install -r requirements.txt
+```
 
 ## Setting up
-- Create all tables - `(venv) madlad$ python3 sql/db.py`
-- Update `email` & `password` in `credentials.py`
-- Log in to robinhood in your browser and open up the inspector (cmd+option+i for mac users)
+- `(venv) gimli$ python3 sql/db.py` - Create all tables
+- `(venv) gimli$ touch credentials.py` - Create a `credentials` file
+- Set `email="youremail"`, `password="yourpassword"` in `credentials.py`
+- Log in to robinhood and open up the inspector (`cmd+opt+i` on mac)
 - Type `document.cookie` in the console and copy your `device_token`
-- Update `device_token` in `credentials.py` to what was in `document.cookie` for `device_token`
+- In `credentials.py`  set `device_token="your-device-token"`
 
 ![](https://pbs.twimg.com/media/DOKNxxPVAAAbun0.jpg)
 
-## Running
+## Running the app
 
 `(venv) aragorn$ python3 app.py`
+
+Two choices follow, `json` or `xlsx`.
+##### Getting your history
+When you want to get the most up to date history, select `json` and then any of the four selections.
+##### Generating excel files
+When you want to generate an excel file from the `json` you have stored, select `xlsx`.
 
 ## Why even have this?
 Good question. This will allow you to easily download your history from robinhood and export it to a xlsx file, all for easy viewing.
 
-When exported, it will have aggregated data such as **total P/L** or **Most successful company traded**.
+When exported, it will have aggregated data such as **total P/L** or **Most successful company traded**(Coming soon).
 
 Of course, you will be able to amend the file to your liking afterwards as well. You can even adjust the controller files & settings as well, in case you would like it to be a staple in your exports. 
 
