@@ -8,6 +8,7 @@ def create_authorization():
     authorization (
       'id' INTEGER PRIMARY KEY,
       'bearer_token' TEXT NOT NULL,
+      'refresh' TEXT NOT NULL,
       'user_id' INTEGER NOT NULL UNIQUE
     );
     '''
