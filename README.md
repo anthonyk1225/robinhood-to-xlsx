@@ -21,7 +21,7 @@ legolas$ source venv/bin/activate
 ## Setting up
 - `(venv) gimli$ python3 sql/db.py` - Create all tables
 - `(venv) gimli$ touch credentials.py` - Create a `credentials` file
-- Set `email="youremail"`, `password="yourpassword"` in `credentials.py`
+- Set `username="yourusername"`, `password="yourpassword"` in `credentials.py`
 - Log in to robinhood and open up the inspector (`cmd+opt+i` on mac)
 - Type `document.cookie` in the console and copy your `device_token`
 - In `credentials.py`  set `device_token="your-device-token"`
