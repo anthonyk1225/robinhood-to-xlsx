@@ -1,7 +1,7 @@
 import json, os
 from sql.operations.instruments import get_instruments
 from utils.instruments import handle_fetched_instrument_data
-from utils.dividends.formulas import write_sum
+from formulas.dividends import write_sum
 from utils.file_io import\
   create_workbook,\
     create_worksheet,\

@@ -1,7 +1,6 @@
 import json, os
 from sql.operations.instruments import get_instruments
 from utils.instruments import handle_fetched_instrument_data
-from utils.orders.formulas import *
 from utils.file_io import\
   create_workbook,\
     create_worksheet,\
