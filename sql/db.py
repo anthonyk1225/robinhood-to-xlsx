@@ -1,6 +1,10 @@
-from tables import instruments, authorization, device_token
+import os
+from sql.tables import instruments, authorization, device_token
 
 def run():
+  if 'robinhood.db' in os.listdir('./'):
+    return False
+
   tables = [
     instruments.create_tables,
     authorization.create_tables,
@@ -9,4 +13,4 @@ def run():
   for table in tables:
     table()
 
-run()
+  return True

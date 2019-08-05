@@ -1,8 +1,10 @@
-import requests
-import json
+import requests, json
 from utils.authentication import create_headers
+from sql.db import run as create_tables
 
 def run(report):
+  create_tables()
+
   headers = create_headers()
   counter = 1
   has_next = True
