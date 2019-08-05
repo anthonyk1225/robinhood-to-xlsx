@@ -8,9 +8,41 @@ from sql.operations.authorization import\
     create_authorization,\
       update_bearer_token
 
-from sql.operations.device_token import\
-  get_device_token,\
-    create_device_token
+# from sql.operations.device_token import\
+#   get_device_token,\
+#     create_device_token
+
+def login(grant_type, mfa_code="", refresh_token=""):
+  headers = {
+    "X-Robinhood-API-Version": robinhood_version
+  }
+
+  json = {
+    "client_id": client_id,
+    "device_token": device_token,
+    "expires_in": 86400,
+    "grant_type": grant_type,
+    "password": password,
+    "scope": "internal",
+    "username": username,
+  }
+
+  if len(mfa_code):
+    json["mfa_code"] = mfa_code
+
+  if len(refresh_token):
+    json["refresh_token"] = refresh_token
+
+  url="https://api.robinhood.com/oauth2/token/"
+
+  response = requests.post(
+    url,
+    headers=headers,
+    json=json
+  )
+
+  return response.json(), response.ok
+
 
 # def handle_device_token():
 #   device_token = get_device_token()
@@ -29,51 +61,16 @@ def generate_bearer_token():
   #   print('There was an error handling device token,', str(e))
   # print(device_token, 'DEVICE_TOKEN')
 
-  data = requests.post(
-    "https://api.robinhood.com/oauth2/token/",
-    headers={
-      "X-Robinhood-API-Version": robinhood_version
-    },
-    json={
-      "expires_in": 86400,
-      "username": username,
-      "password": password,
-      "device_token": device_token,
-      "grant_type": "password",
-      "client_id": client_id,
-      "scope": "internal"
-    }
-  )
-
-  if 'mfa_required' in data.json():
-    if data.json()['mfa_required']:
+  response, success = login("password")
+  if 'mfa_required' in response:
+    if response['mfa_required']:
       mfa_code = input("What is the robinhood mfa code: ")
       try:
-        mfa_request = requests.post(
-          "https://api.robinhood.com/oauth2/token/",
-          headers={
-            "X-Robinhood-API-Version": robinhood_version
-          },
-          json={
-            "expires_in": 86400,
-            "username": username,
-            "password": password,
-            "device_token": device_token,
-            "grant_type": "password",
-            "client_id": client_id,
-            "scope": "internal",
-            "mfa_code": mfa_code
-          }
-        )
-        mfa_access_token = mfa_request.json()['access_token']
-        mfa_refresh_token = mfa_request.json()['refresh_token']
-        return mfa_access_token, mfa_refresh_token
+        response, success = login("password", mfa_code)
       except Exception as e:
         print('Something went wrong, ', str(e))
 
-  access_token = data.json()["access_token"]
-  refresh_token = data.json()["refresh_token"]
-  return access_token, refresh_token
+  return response["access_token"], response["refresh_token"]
 
 def create_headers():
   bearer_token = get_bearer_token()
@@ -86,7 +83,7 @@ def create_headers():
   headers = { "Authorization": 'Bearer {token}'.format(token=bearer_token[0][0]) }
 
   test = requests.get(
-    "https://api.robinhood.com/fundamentals/MSFT/",
+    "https://api.robinhood.com/fundamentals/zzzzzzzzzzz/",
     headers=headers
   )
 
@@ -94,28 +91,10 @@ def create_headers():
     return headers
 
   bearer_token_refresh = bearer_token[0][1]
+  response, success = login("refresh_token", "", bearer_token_refresh)
 
-  print('REFRESHING')
-  refresh_request = requests.post(
-    "https://api.robinhood.com/oauth2/token/",
-    headers={
-      "X-Robinhood-API-Version": robinhood_version
-    },
-    json={
-      "expires_in": 86400,
-      "username": username,
-      "password": password,
-      "device_token": device_token,
-      "grant_type": "refresh_token",
-      "client_id": client_id,
-      "scope": "internal",
-      "refresh_token": bearer_token_refresh
-    }
-  )
-
-  if refresh_request.ok:
-    updated_bearer_token = refresh_request.json()["access_token"]
-    updated_refresh = refresh_request.json()["refresh_token"]
+  if success:
+    updated_bearer_token, updated_refresh = response["access_token"], response["refresh_token"]
   else:
     updated_bearer_token, updated_refresh = generate_bearer_token()
 
