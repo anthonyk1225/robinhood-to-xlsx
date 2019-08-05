@@ -39,10 +39,10 @@ reports = {
 json_or_xlsx = [
   inquirer.List(
     'json_or_xlsx',
-    message="Would you like to generate",
+    message="What would you like to run",
     choices=[
-      "json",
-      "xlsx",
+      "json(Robinhood history)",
+      "xlsx(Excel file)",
     ],
   ),
 ]
@@ -71,9 +71,9 @@ def run():
     print("Cancelled")
     return False
 
-  if generate_json_or_xlsx_answer == 'xlsx':
+  if generate_json_or_xlsx_answer == 'xlsx(Excel file)':
     xlsx_generators[report_answer]()
-  elif generate_json_or_xlsx_answer == 'json':
+  elif generate_json_or_xlsx_answer == 'json(Robinhood history)':
     fetch_user_json.run(reports[report_answer])
   return True
 
