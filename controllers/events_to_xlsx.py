@@ -28,9 +28,9 @@ def run():
 
         for item in file_results:
           if item['state'] == 'confirmed':
-            leg_option_instrument = item['option']
-            fetched_row = get_option_instruments(leg_option_instrument)
-            instrument_values = handle_fetched_option_instrument_data(fetched_row, leg_option_instrument)
+            option_instrument = item['option']
+            fetched_row = get_option_instruments(option_instrument)
+            instrument_values = handle_fetched_option_instrument_data(fetched_row, option_instrument)
             (item['strike_price'],
             item['chain_symbol'],
             item['option_type'],

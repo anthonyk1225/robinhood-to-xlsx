@@ -26,24 +26,25 @@ def run():
 
         for item in file_results:
           if item['state'] == 'filled':
-            if len(item['legs']) > 1:
-              # multi leg trade
-              # print(item['legs'])
-              pass
-            leg = item['legs'][0]
-            leg_option_instrument = leg["option"]
-            item["side"] = leg["side"]
-            item["position_effect"] = leg["position_effect"]
-            try:
-              fetched_row = get_option_instruments(leg_option_instrument)
-              instrument_values = handle_fetched_option_instrument_data(fetched_row, leg_option_instrument)
-              (item['strike_price'],
-              item['chain_symbol'],
-              item['option_type'],
-              item['expiration_date'],
-              item['created_at']) = instrument_values
-            except Exception as e:
-              print("There was an error fetching the instrument", str(e))
+
+            # for leg in item['legs']:
+            #   option_instrument_url = leg["option"]
+            #   side, effect = leg["side"], leg["position_effect"]
+
+            #   try:
+            #     option_instrument_data = get_option_instruments(option_instrument_url)
+            #     option_instrument_values = handle_fetched_option_instrument_data(
+            #       option_instrument_data,
+            #       option_instrument_url,
+            #     )
+            #     (item['strike_price'],
+            #     item['chain_symbol'],
+            #     item['option_type'],
+            #     item['expiration_date'],
+            #     item['created_at']) = option_instrument_values
+            #   except Exception as e:
+            #     print("There was an error fetching the instrument", str(e))
+
             options.append(item)
 
   options = sorted(options, key=lambda k: k['chain_symbol'])
