@@ -1,6 +1,7 @@
 import sqlite3
 
 # GET
+
 def get_device_token():
   """
   returns a TUPLE
@@ -18,6 +19,7 @@ def get_device_token():
   return all_rows
 
 # CREATE
+
 def create_device_token(token):
   """
   returns INTEGER
@@ -37,6 +39,7 @@ def create_device_token(token):
 
 
 # UPDATE
+
 def update_device_token(token):
   """
   returns INTEGER

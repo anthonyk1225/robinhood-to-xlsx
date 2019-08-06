@@ -7,8 +7,8 @@ def create_authorization():
     CREATE TABLE IF NOT EXISTS
     authorization (
       'id' INTEGER PRIMARY KEY,
-      'bearer_token' TEXT NOT NULL,
-      'refresh' TEXT NOT NULL,
+      'access_token' TEXT NOT NULL,
+      'refresh_token' TEXT NOT NULL,
       'user_id' INTEGER NOT NULL UNIQUE
     );
     '''

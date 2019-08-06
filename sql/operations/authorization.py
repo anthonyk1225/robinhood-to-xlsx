@@ -1,7 +1,7 @@
 import sqlite3
 
 # GET
-def get_bearer_token():
+def get_auth_tokens():
     """
     returns a TUPLE
      - empty if it doesn't exist
@@ -9,7 +9,7 @@ def get_bearer_token():
     """
 
     conn = sqlite3.connect('robinhood.db')
-    command = "SELECT bearer_token, refresh FROM authorization WHERE user_id=1;"
+    command = "SELECT access_token, refresh_token FROM authorization WHERE user_id=1;"
     cursor = conn.execute(command)
     all_rows = cursor.fetchall()
     conn.commit()
@@ -18,7 +18,7 @@ def get_bearer_token():
     return all_rows
 
 # CREATE
-def create_authorization(bearer_token, refresh):
+def create_authorization(access_token, refresh_token):
     """
     returns INTEGER
      - last id of row created
@@ -26,8 +26,8 @@ def create_authorization(bearer_token, refresh):
 
     conn = sqlite3.connect('robinhood.db')
     command = "INSERT INTO authorization\
-        (bearer_token, refresh, user_id)\
-        VALUES ('{}', '{}', 1);".format(bearer_token, refresh)
+        (access_token, refresh_token, user_id)\
+        VALUES ('{}', '{}', 1);".format(access_token, refresh_token)
 
     cursor = conn.execute(command)
     conn.commit()
@@ -37,7 +37,7 @@ def create_authorization(bearer_token, refresh):
 
 
 # UPDATE
-def update_bearer_token(bearer_token, refresh):
+def update_auth_tokens(access_token, refresh_token):
     """
     returns INTEGER
     - returns 0
@@ -45,9 +45,9 @@ def update_bearer_token(bearer_token, refresh):
 
     conn = sqlite3.connect('robinhood.db')
     command = "UPDATE authorization\
-        SET bearer_token='{}',\
-            refresh='{}'\
-                where user_id=1;".format(bearer_token, refresh)
+        SET access_token='{}',\
+            refresh_token='{}'\
+                where user_id=1;".format(access_token, refresh_token)
 
     cursor = conn.execute(command)
     conn.commit()

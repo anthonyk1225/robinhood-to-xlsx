@@ -4,9 +4,9 @@ from credentials import username, password, device_token
 # from utils.device_token import generate_device_token
 
 from sql.operations.authorization import\
-  get_bearer_token,\
+  get_auth_tokens,\
     create_authorization,\
-      update_bearer_token
+      update_auth_tokens
 
 # from sql.operations.device_token import\
 #   get_device_token,\
@@ -43,7 +43,6 @@ def login(grant_type, mfa_code="", refresh_token=""):
 
   return response.json(), response.ok
 
-
 # def handle_device_token():
 #   device_token = get_device_token()
 #   if len(device_token) == 0:
@@ -52,7 +51,7 @@ def login(grant_type, mfa_code="", refresh_token=""):
 #     return generated_device_token
 #   return device_token[0][0]
 
-def generate_bearer_token():
+def generate_auth_tokens():
   # device_token = ''
 
   # try:
@@ -73,14 +72,14 @@ def generate_bearer_token():
   return response["access_token"], response["refresh_token"]
 
 def create_headers():
-  bearer_token = get_bearer_token()
+  auth_tokens = get_auth_tokens()
 
-  if len(bearer_token) == 0:
-    generated_bearer_token, refresh = generate_bearer_token()
-    create_authorization(generated_bearer_token, refresh)
-    return { "Authorization": 'Bearer {token}'.format(token=generated_bearer_token) }
+  if len(auth_tokens) == 0:
+    access_token, refresh_token = generate_auth_tokens()
+    create_authorization(access_token, refresh_token)
+    return { "Authorization": 'Bearer {token}'.format(token=access_token) }
 
-  headers = { "Authorization": 'Bearer {token}'.format(token=bearer_token[0][0]) }
+  headers = { "Authorization": 'Bearer {token}'.format(token=auth_tokens[0][0]) }
 
   test = requests.get(
     "https://api.robinhood.com/fundamentals/zzzzzzzzzzz/",
@@ -90,13 +89,13 @@ def create_headers():
   if test.ok:
     return headers
 
-  bearer_token_refresh = bearer_token[0][1]
-  response, success = login("refresh_token", "", bearer_token_refresh)
+  refresh_token = auth_tokens[0][1]
+  response, success = login("refresh_token", "", refresh_token)
 
   if success:
-    updated_bearer_token, updated_refresh = response["access_token"], response["refresh_token"]
+    access_token, refresh_token = response["access_token"], response["refresh_token"]
   else:
-    updated_bearer_token, updated_refresh = generate_bearer_token()
+    access_token, refresh_token = generate_auth_tokens()
 
-  update_bearer_token(updated_bearer_token, updated_refresh)
-  return { "Authorization": 'Bearer {token}'.format(token=updated_bearer_token) }
+  update_auth_tokens(access_token, refresh_token)
+  return { "Authorization": 'Bearer {token}'.format(token=access_token) }
