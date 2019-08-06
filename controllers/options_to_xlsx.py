@@ -28,7 +28,8 @@ def run():
           if item['state'] == 'filled':
             if len(item['legs']) > 1:
               # multi leg trade
-              print(item['legs'])
+              # print(item['legs'])
+              pass
             leg = item['legs'][0]
             leg_option_instrument = leg["option"]
             item["side"] = leg["side"]
@@ -51,4 +52,5 @@ def run():
     col = 0
     write_worksheet_rows(workbook, worksheet, selected_keys, option, row, col)
     row += 1
+
   workbook.close()

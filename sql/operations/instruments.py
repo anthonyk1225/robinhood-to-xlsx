@@ -34,7 +34,7 @@ def create_option_instruments(
     conn = sqlite3.connect('robinhood.db')
     command = "INSERT INTO option_instruments\
         (url, strike_price, chain_symbol, type, expiration_date, created_at)\
-        VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}');".format(
+        VALUES ('{}', '{}', '{}', '{}', '{}', '{}');".format(
             url, strike_price, chain_symbol, option_type, expiration_date, created_at,
         )
 

@@ -39,6 +39,7 @@ def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
     option_type = data['type']
     expiration_date = data['expiration_date']
     created_at = data['created_at']
+
     try:
       create_option_instruments(
         link,
@@ -49,7 +50,7 @@ def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
         created_at,
       )
     except Exception as e:
-      print('There was an error creating an instrument', e.message)
+      print('There was an error creating an instrument', str(e))
 
   return (
     strike_price,
