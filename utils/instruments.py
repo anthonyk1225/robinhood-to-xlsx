@@ -5,13 +5,11 @@ from sql.operations.instruments import\
 
 def handle_fetched_instrument_data(fetched_instrument_data, link):
   if fetched_instrument_data:
-    # it exists in our db
     data = fetched_instrument_data[0]
     simple_name = data[0]
     symbol = data[1]
   else:
-    # it doesn't exist in our db
-    print('HITTING THE INSTRUMENT URL')
+    print('SENDING REQUEST FOR THE INSTRUMENT URL')
     data = requests.get(link).json()
     simple_name = data['simple_name']
     symbol = data['symbol']
@@ -23,7 +21,6 @@ def handle_fetched_instrument_data(fetched_instrument_data, link):
 
 def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
   if fetched_option_instrument_data:
-    # it exists in our db
     data = fetched_option_instrument_data[0]
     strike_price = data[0]
     chain_symbol = data[1]
@@ -31,8 +28,7 @@ def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
     expiration_date = data[3]
     created_at = data[4]
   else:
-    # it doesn't exist in our db
-    print('HITTING THE OPTION INSTRUMENT URL')
+    print('SENDING REQUEST FOR THE OPTION INSTRUMENT URL')
     data = requests.get(link).json()
     strike_price = data['strike_price']
     chain_symbol = data['chain_symbol']

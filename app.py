@@ -1,17 +1,7 @@
 import inquirer
 from controllers import\
-  dividends_to_xlsx,\
-    options_to_xlsx,\
-      events_to_xlsx,\
-        orders_to_xlsx,\
-          fetch_user_json
-
-xlsx_generators = {
-  'dividends': dividends_to_xlsx.run,
-  'events': events_to_xlsx.run,
-  'options': options_to_xlsx.run,
-  'orders': orders_to_xlsx.run,
-}
+    fetch_user_json,\
+      json_to_xlsx
 
 reports = {
   "dividends": {
@@ -72,7 +62,7 @@ def run():
     return False
 
   if generate_json_or_xlsx_answer == 'xlsx(Excel file)':
-    xlsx_generators[report_answer]()
+    json_to_xlsx.run(report_answer)
   elif generate_json_or_xlsx_answer == 'json(Robinhood history)':
     fetch_user_json.run(reports[report_answer])
   return True

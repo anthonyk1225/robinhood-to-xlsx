@@ -64,3 +64,31 @@ selected_keys_events = [
   { "name": 'quantity', "width": 15, "formatting": {}, "cell_type": "number" },
   *option_instruments,
 ]
+
+entity_filenames = {
+  "events": xlsx_filename_events,
+  "options": xlsx_filename_options,
+  "orders": xlsx_filename_orders,
+  "dividends": xlsx_filename_dividends
+}
+
+entity_directories = {
+  "events": json_directory_events,
+  "options": json_directory_options,
+  "orders": json_directory_orders,
+  "dividends": json_directory_dividends
+}
+
+selected_entity_keys = {
+  "events": selected_keys_events,
+  "options": selected_keys_options,
+  "orders": selected_keys_orders,
+  "dividends": selected_keys_dividends
+}
+
+entity_sort_on = {
+  "events": "chain_symbol",
+  "options": "chain_symbol",
+  "orders": "symbol",
+  "dividends": "symbol",
+}
