@@ -10,6 +10,7 @@ from utils.file_io import\
         write_worksheet_rows
 from formulas.dividends import write_sum
 from utils.xlsx_helpers import entity_helpers
+from formulas.index import formula_pipelines
 
 def run(entity):
   entity_filename = entity_filenames[entity]
@@ -19,6 +20,8 @@ def run(entity):
   workbook = create_workbook(entity_filename)
   worksheet = create_worksheet(workbook)
   write_column_headers(workbook, worksheet, selected_keys)
+
+  filtered_data = []
 
   for filename in os.listdir(directory):
     with open(directory + filename) as f:
@@ -35,7 +38,6 @@ def run(entity):
     write_worksheet_rows(workbook, worksheet, selected_keys, item, row, col)
     row += 1
 
-  # formulas go here
-  # write_sum(worksheet, workbook, row)
+  formula_pipelines[entity](worksheet, workbook, sorted_data)
 
   workbook.close()
