@@ -57,7 +57,7 @@ def options(file_results):
       options.append(item)
 
   return options
-  
+
 def orders(file_results):
   orders = []
   for item in file_results:
