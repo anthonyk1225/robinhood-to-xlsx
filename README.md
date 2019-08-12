@@ -55,6 +55,11 @@ When exported, it will have aggregated data such as **total P/L** or **Most succ
 
 Of course, you will be able to amend the file to your liking afterwards as well. You can even adjust the controller files & settings as well, in case you would like it to be a staple in your exports. 
 
+## Settings
+Coming soon
+
+## Formulas
+Coming soon
 
 ## Contributing
 
