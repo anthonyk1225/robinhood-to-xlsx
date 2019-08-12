@@ -24,3 +24,9 @@ def write_sum(worksheet, workbook, row):
       },
     ),
   )
+
+def handle_formulas(worksheet, workbook, data):
+  row = len(data) + 1
+  write_sum(worksheet, workbook, row)
+
+  
