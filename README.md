@@ -59,5 +59,3 @@ Of course, you will be able to amend the file to your liking afterwards as well.
 ## Contributing
 
 Feel free to leave a pull request, or raise issues for any topic you may have.
-
-

@@ -1,30 +1,8 @@
 import inquirer
 from controllers import\
-    fetch_user_json,\
-      json_to_xlsx
-
-reports = {
-  "dividends": {
-    "url": "https://api.robinhood.com/dividends/",
-    "filename": "dividends",
-    "dir": "dividends",
-  },
-  "events": {
-    "url": "https://api.robinhood.com/options/events/",
-    "filename": "events",
-    "dir": "events",
-  },
-  "options": {
-    "url": "https://api.robinhood.com/options/orders/",
-    "filename": "options-orders",
-    "dir": "options",
-  },
-  "orders": {
-    "url": "https://api.robinhood.com/orders/",
-    "filename": "orders",
-    "dir": "orders",
-  },
-}
+  fetch_user_json,\
+    json_to_xlsx
+from settings import reports
 
 json_or_xlsx = [
   inquirer.List(
@@ -67,4 +45,5 @@ def run():
     fetch_user_json.run(reports[report_answer])
   return True
 
-run()
+if __name__ == '__main__':
+  run()
