@@ -21,7 +21,7 @@ def dividends(file_results):
 def events(file_results):
   events = []
   for item in file_results:
-    if item['state'] == 'confirmed':
+    if item['state'] == 'confirmed' and item['type'] != 'expiration':
       option_instrument = item['option']
       fetched_row = get_option_instruments(option_instrument)
       instrument_values = handle_fetched_option_instrument_data(fetched_row, option_instrument)
