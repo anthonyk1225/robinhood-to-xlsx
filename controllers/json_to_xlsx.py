@@ -28,7 +28,7 @@ def run(entity):
       if f.name.endswith('.json'):
         file_data = json.loads(f.read())
         file_results = file_data['results']
-        filtered_data = entity_helpers[entity](file_results)
+        filtered_data = filtered_data + entity_helpers[entity](file_results)
 
   sorted_data = sorted(filtered_data, key=lambda k: k[entity_sort_on[entity]]) 
 
