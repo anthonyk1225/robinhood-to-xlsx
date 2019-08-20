@@ -5,18 +5,27 @@ from utils.instruments import\
   handle_fetched_instrument_data,\
     handle_fetched_option_instrument_data
 
+def aggregate_companies(data, symbol, amount):
+  if symbol in data:
+    data[symbol] += float(amount)
+  else:
+    data[symbol] = float(amount)
+  return data
+
 def dividends(file_results):
   dividends = []
+  company_totals = {}
   for item in file_results:
     try:
       instrument = item['instrument']
       fetched_row = get_instruments(instrument)
       simple_name, symbol = handle_fetched_instrument_data(fetched_row, instrument)
       item['simple_name'], item['symbol'] = simple_name, symbol
+      company_totals = aggregate_companies(company_totals, symbol, item['amount'])
     except Exception as e:
       print("There was an error fetching the instrument in dividend", str(e))
     dividends.append(item)
-  return dividends
+  return dividends, company_totals
 
 def events(file_results):
   events = []
@@ -31,7 +40,7 @@ def events(file_results):
       item['expiration_date'],
       item['created_at']) = instrument_values
       events.append(item)
-  return events
+  return events, {}
 
 def options(file_results):
   options = []
@@ -56,7 +65,7 @@ def options(file_results):
     #     print("There was an error fetching the instrument", str(e))
       options.append(item)
 
-  return options
+  return options, {}
 
 def orders(file_results):
   orders = []
@@ -73,7 +82,7 @@ def orders(file_results):
       except Exception as e:
         print("There was an error fetching the instrument", str(e))
       orders.append(item)
-  return orders
+  return orders, {}
 
 entity_helpers = {
   "dividends": dividends,
