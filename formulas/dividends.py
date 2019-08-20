@@ -1,32 +1,41 @@
-def write_sum(worksheet, workbook, row):
+from settings import currency
+
+def write_aggregates(worksheet, workbook, aggregates, data_length):
+  starting_row = 12
+  ending_row = starting_row + data_length + 1
+  cell_span = f"K{starting_row}:L{ending_row}"
+
   worksheet.set_column(
-    'K12:K13',
+    cell_span,
     15,
   )
 
   worksheet.add_table(
-    'K12:K13', {
+    cell_span, {
       'columns': [
         {
-          'header': 'Total Dividends',
+          'header': 'COMPANY',
+          'total_string': 'Total',
         },
+        {
+          'header': 'AMOUNT',
+          'total_function': 'sum',
+        }
       ],
+      'total_row': True,
     },
   )
 
-  worksheet.write_formula(
-    'K13',
-    f"=SUM(A2:A{row})",
-    workbook.add_format(
-      {
-        'bold': True,
-        'num_format': '$0.00',
-      },
-    ),
-  )
+  money_format = workbook.add_format(currency)
 
-def handle_formulas(worksheet, workbook, data):
-  row = len(data) + 1
-  write_sum(worksheet, workbook, row)
+  row = starting_row + 1
+  for k, v in aggregates.items():
+    worksheet.write(f"K{row}", k)
+    worksheet.write(f"L{row}", v, money_format)
+    row += 1
+
+def handle_formulas(worksheet, workbook, aggregates):
+  data_length = len(aggregates)
+  write_aggregates(worksheet, workbook, aggregates, data_length)
 
   
