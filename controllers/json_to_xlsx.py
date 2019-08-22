@@ -38,6 +38,7 @@ def run(entity):
     write_worksheet_rows(workbook, worksheet, selected_keys, item, row, col)
     row += 1
 
-  formula_pipelines[entity](worksheet, workbook, aggregates)
+  formula_worksheet = create_worksheet(workbook)
+  formula_pipelines[entity](formula_worksheet, workbook, aggregates)
 
   workbook.close()
