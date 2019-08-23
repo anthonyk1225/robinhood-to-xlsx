@@ -42,6 +42,37 @@ def events(file_results):
       events.append(item)
   return events, {}
 
+def events_orders(file_results):
+  events_orders = []
+  for item in file_results:
+    if item['state'] == 'confirmed' and item['type'] != 'expiration':
+      option_instrument = item['option']
+      fetched_row = get_option_instruments(option_instrument)
+      instrument_values = handle_fetched_option_instrument_data(fetched_row, option_instrument)
+
+      (strike_price,
+      chain_symbol,
+      option_type,
+      expiration_date,
+      created_at) = instrument_values
+
+      shares = float(item['quantity']) * 100
+      fees = (float(strike_price) * shares) - float(item['total_cash_amount'])
+      side = "buy" if item['direction'] == "debit" else "sell"
+
+      event_order = {
+        "fees": fees,
+        "side": side,
+        "quantity": shares,
+        "settlement_date": expiration_date,
+        "price": strike_price,
+        "simple_name": "Events",
+        "symbol": chain_symbol,
+      }
+
+      events_orders.append(event_order)
+  return events_orders, {}
+
 def options(file_results):
   options = []
   for item in file_results:
@@ -87,6 +118,7 @@ def orders(file_results):
 entity_helpers = {
   "dividends": dividends,
   "events": events,
+  "events_orders": events_orders,
   "orders": orders,
   "options": options
 }
