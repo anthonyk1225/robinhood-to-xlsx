@@ -29,7 +29,6 @@ def dividends(file_results):
       fetched_row = get_instruments(instrument)
       simple_name, symbol = handle_fetched_instrument_data(fetched_row, instrument)
       item['simple_name'], item['symbol'] = simple_name, symbol
-      net_price = gross_price - float(fees)
       company_totals = aggregate_symbols(company_totals, symbol, item['amount'])
       dividends.append(item)
     except Exception as e:
