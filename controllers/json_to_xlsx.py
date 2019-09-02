@@ -11,7 +11,7 @@ from utils.file_io import\
 from utils.xlsx_helpers import entity_helpers
 from formulas.index import formula_pipelines
 
-def handle_events_orders(entity):
+def handle_events_orders(entity, aggregates):
   file_results = []
   directory = entity_directories["events"]
 
@@ -21,7 +21,7 @@ def handle_events_orders(entity):
         file_data = json.loads(f.read())
         file_results = file_results + file_data['results']
 
-  return entity_helpers["events_orders"](file_results)
+  return entity_helpers["events_orders"](file_results, aggregates)
 
 def run(entity):
   entity_filename = entity_filenames[entity]
@@ -42,11 +42,10 @@ def run(entity):
         file_results = file_results + file_data['results']
 
   filtered_data, aggregates = entity_helpers[entity](file_results)
-  
+
   if entity == "orders":
-    new_filtered_data, new_aggregates = handle_events_orders(entity)
+    new_filtered_data, aggregates = handle_events_orders(entity, aggregates)
     filtered_data = filtered_data + new_filtered_data
-    # aggregates = aggregates + new_aggregates
 
   sorted_data = sorted(filtered_data, key=lambda k: k[entity_sort_on[entity]]) 
 

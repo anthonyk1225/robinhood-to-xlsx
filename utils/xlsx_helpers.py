@@ -5,12 +5,20 @@ from utils.instruments import\
   handle_fetched_instrument_data,\
     handle_fetched_option_instrument_data
 
-def aggregate_companies(data, symbol, amount):
+def aggregate_symbols(data, symbol, amount):
   if symbol in data:
     data[symbol] += float(amount)
   else:
     data[symbol] = float(amount)
   return data
+
+def aggregate_orders(data, symbol, price, quantity, fees, side):
+  gross_price = float(price) * float(quantity)
+  if side == 'buy':
+    net_price = gross_price * -1
+  else:
+    net_price = gross_price - float(fees)
+  return aggregate_symbols(data, symbol, net_price)
 
 def dividends(file_results):
   dividends = []
@@ -21,10 +29,11 @@ def dividends(file_results):
       fetched_row = get_instruments(instrument)
       simple_name, symbol = handle_fetched_instrument_data(fetched_row, instrument)
       item['simple_name'], item['symbol'] = simple_name, symbol
-      company_totals = aggregate_companies(company_totals, symbol, item['amount'])
+      net_price = gross_price - float(fees)
+      company_totals = aggregate_symbols(company_totals, symbol, item['amount'])
+      dividends.append(item)
     except Exception as e:
       print("There was an error fetching the instrument in dividend", str(e))
-    dividends.append(item)
   return dividends, company_totals
 
 def events(file_results):
@@ -42,8 +51,9 @@ def events(file_results):
       events.append(item)
   return events, {}
 
-def events_orders(file_results):
+def events_orders(file_results, aggregates):
   events_orders = []
+  company_totals = aggregates
   for item in file_results:
     if item['state'] == 'confirmed' and item['type'] != 'expiration':
       option_instrument = item['option']
@@ -70,8 +80,16 @@ def events_orders(file_results):
         "symbol": chain_symbol,
       }
 
+      company_totals = aggregate_orders(
+        company_totals,
+        chain_symbol,
+        strike_price,
+        shares,
+        fees,
+        side,
+      )
       events_orders.append(event_order)
-  return events_orders, {}
+  return events_orders, company_totals
 
 def options(file_results):
   options = []
@@ -100,6 +118,7 @@ def options(file_results):
 
 def orders(file_results):
   orders = []
+  company_totals = {}
   for item in file_results:
     if item['state'] == 'filled':
       executions = item['executions'][0]
@@ -110,10 +129,18 @@ def orders(file_results):
         fetched_row = get_instruments(instrument)
         simple_name, symbol = handle_fetched_instrument_data(fetched_row, instrument)
         item['simple_name'], item['symbol'] = simple_name, symbol
+        company_totals = aggregate_orders(
+          company_totals,
+          item['symbol'],
+          item['price'],
+          item['quantity'],
+          item['fees'],
+          item['side'],
+        )
       except Exception as e:
         print("There was an error fetching the instrument", str(e))
       orders.append(item)
-  return orders, {}
+  return orders, company_totals
 
 entity_helpers = {
   "dividends": dividends,
