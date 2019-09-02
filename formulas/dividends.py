@@ -12,6 +12,8 @@ def write_aggregates(worksheet, workbook, aggregates):
     15,
   )
 
+  money_format = workbook.add_format(currency)
+
   worksheet.add_table(
     cell_span, {
       'columns': [
@@ -22,13 +24,12 @@ def write_aggregates(worksheet, workbook, aggregates):
         {
           'header': 'AMOUNT',
           'total_function': 'sum',
+          'format': money_format,
         }
       ],
       'total_row': True,
     },
   )
-
-  money_format = workbook.add_format(currency)
 
   row = starting_row + 1
   for k, v in aggregates.items():
