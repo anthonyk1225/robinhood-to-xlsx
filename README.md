@@ -60,6 +60,9 @@ The `settings.py` file contains what data the excel file will contain. For examp
 
 You can see all of the fields available to include, by looking in the `data` folder and then the respective entity.
 
+## Formulas
+After all of the rows get written, the forumlas that are assinged in the respective files get executed. These are located in the `formulas` folder. Any other aggregate data that you would like to display will go here.
+
 ## Contributing
 
 Feel free to leave a pull request, or raise issues for any topic you may have.

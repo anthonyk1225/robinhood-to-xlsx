@@ -39,5 +39,4 @@ def write_aggregates(worksheet, workbook, aggregates):
 
 def handle_formulas(worksheet, workbook, aggregates):
   write_aggregates(worksheet, workbook, aggregates)
-
   
