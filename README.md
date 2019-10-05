@@ -56,10 +56,12 @@ When exported, it will have aggregated data such as **total P/L** or **Most succ
 Of course, you will be able to amend the file to your liking afterwards as well. You can even adjust the controller files & settings as well, in case you would like it to be a staple in your exports. 
 
 ## Settings
-Coming soon
+The `settings.py` file contains what data the excel file will contain. For example, if you would like to include more information in the export to dividends, all you need to do is adjust `selected_keys_dividends`. Same goes for if you would like to remove a column.  You can also adjust the width of the columns by adjusting the width field for each respective dict.
+
+You can see all of the fields available to include, by looking in the `data` folder and then the respective entity.
 
 ## Formulas
-Coming soon
+After all of the rows get written, the forumlas that are assinged in the respective files get executed. These are located in the `formulas` folder. Any other aggregate data that you would like to display will go here.
 
 ## Contributing
 

@@ -8,9 +8,20 @@ from utils.file_io import\
     create_worksheet,\
       write_column_headers,\
         write_worksheet_rows
-from formulas.dividends import write_sum
 from utils.xlsx_helpers import entity_helpers
 from formulas.index import formula_pipelines
+
+def handle_events_orders(entity, aggregates):
+  file_results = []
+  directory = entity_directories["events"]
+
+  for filename in os.listdir(directory):
+    with open(directory + filename) as f:
+      if f.name.endswith('.json'):
+        file_data = json.loads(f.read())
+        file_results = file_results + file_data['results']
+
+  return entity_helpers["events_orders"](file_results, aggregates)
 
 def run(entity):
   entity_filename = entity_filenames[entity]
@@ -21,16 +32,30 @@ def run(entity):
   worksheet = create_worksheet(workbook)
   write_column_headers(workbook, worksheet, selected_keys)
 
-  filtered_data = []
+  file_results = []
 
   for filename in os.listdir(directory):
     with open(directory + filename) as f:
       if f.name.endswith('.json'):
         file_data = json.loads(f.read())
-        file_results = file_data['results']
-        filtered_data = filtered_data + entity_helpers[entity](file_results)
+        file_results = file_results + file_data['results']
 
-  sorted_data = sorted(filtered_data, key=lambda k: k[entity_sort_on[entity]]) 
+  filtered_data, aggregates = entity_helpers[entity](file_results)
+
+  if entity == "orders":
+    new_filtered_data, aggregates = handle_events_orders(entity, aggregates)
+    filtered_data = filtered_data + new_filtered_data
+
+  sorted_data = sorted(
+    filtered_data,
+    key=lambda k: (
+      k[entity_sort_on[entity][0]],
+      k[entity_sort_on[entity][1]]
+    )
+  )
+
+  if entity == "orders":
+    aggregates = sorted_data
 
   row = 1
   for item in sorted_data:
@@ -38,6 +63,7 @@ def run(entity):
     write_worksheet_rows(workbook, worksheet, selected_keys, item, row, col)
     row += 1
 
-  formula_pipelines[entity](worksheet, workbook, sorted_data)
+  formula_worksheet = create_worksheet(workbook)
+  formula_pipelines[entity](formula_worksheet, workbook, aggregates)
 
   workbook.close()

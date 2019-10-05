@@ -105,10 +105,10 @@ selected_entity_keys = {
 }
 
 entity_sort_on = {
-  "events": "chain_symbol",
-  "options": "chain_symbol",
-  "orders": "symbol",
-  "dividends": "symbol",
+  "events": ("chain_symbol", "expiration_date"),
+  "options": ("chain_symbol", "created_at"),
+  "orders": ("symbol", "settlement_date"),
+  "dividends": ("symbol", "payable_date"),
 }
 
 reports = {
