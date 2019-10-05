@@ -54,6 +54,9 @@ def run(entity):
     )
   )
 
+  if entity == "orders":
+    aggregates = sorted_data
+
   row = 1
   for item in sorted_data:
     col = 0
@@ -61,6 +64,6 @@ def run(entity):
     row += 1
 
   formula_worksheet = create_worksheet(workbook)
-  formula_pipelines[entity](formula_worksheet, workbook, sorted_data)
+  formula_pipelines[entity](formula_worksheet, workbook, aggregates)
 
   workbook.close()
