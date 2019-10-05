@@ -32,7 +32,6 @@ def run(entity):
   worksheet = create_worksheet(workbook)
   write_column_headers(workbook, worksheet, selected_keys)
 
-  filtered_data = []
   file_results = []
 
   for filename in os.listdir(directory):
@@ -47,7 +46,13 @@ def run(entity):
     new_filtered_data, aggregates = handle_events_orders(entity, aggregates)
     filtered_data = filtered_data + new_filtered_data
 
-  sorted_data = sorted(filtered_data, key=lambda k: k[entity_sort_on[entity]]) 
+  sorted_data = sorted(
+    filtered_data,
+    key=lambda k: (
+      k[entity_sort_on[entity][0]],
+      k[entity_sort_on[entity][1]]
+    )
+  )
 
   row = 1
   for item in sorted_data:
@@ -56,6 +61,6 @@ def run(entity):
     row += 1
 
   formula_worksheet = create_worksheet(workbook)
-  formula_pipelines[entity](formula_worksheet, workbook, aggregates)
+  formula_pipelines[entity](formula_worksheet, workbook, sorted_data)
 
   workbook.close()
