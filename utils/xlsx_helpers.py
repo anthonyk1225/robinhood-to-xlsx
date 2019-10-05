@@ -115,10 +115,9 @@ def orders(file_results):
         fetched_row = get_instruments(instrument)
         simple_name, symbol = handle_fetched_instrument_data(fetched_row, instrument)
         item['simple_name'], item['symbol'] = simple_name, symbol
-
+        orders.append(item)
       except Exception as e:
         print("There was an error fetching the instrument", str(e))
-      orders.append(item)
   return orders, company_totals
 
 entity_helpers = {

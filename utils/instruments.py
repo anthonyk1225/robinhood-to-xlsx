@@ -10,13 +10,13 @@ def handle_fetched_instrument_data(fetched_instrument_data, link):
     symbol = data[1]
   else:
     print('SENDING REQUEST FOR THE INSTRUMENT URL')
-    data = requests.get(link).json()
-    simple_name = data['simple_name']
-    symbol = data['symbol']
     try:
+      data = requests.get(link).json()
+      simple_name = data['simple_name']
+      symbol = data['symbol']
       create_instruments(simple_name, symbol, link)
     except Exception as e:
-      print('There was an error creating an instrument', e.message)
+      print('There was an error creating an instrument', str(e))
   return simple_name, symbol
 
 def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
