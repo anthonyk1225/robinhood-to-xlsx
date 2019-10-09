@@ -1,6 +1,22 @@
 from settings import currency
 
-def write_aggregates(worksheet, workbook, aggregates):
+def aggregate_symbols(data, symbol, amount):
+  if symbol in data:
+    data[symbol] += float(amount)
+  else:
+    data[symbol] = float(amount)
+  return data
+
+def aggregate_data(data):
+  company_totals = []
+  for item in data:
+    symbol, amount = item['symbol'], item['amount']
+    company_totals = aggregate_symbols(company_totals, symbol, amount)
+  return company_totals
+
+def write_aggregates(worksheet, workbook, data):
+  aggregates = aggregate_data(data)
+
   data_length = len(aggregates)
   starting_row = 1
   ending_row = starting_row + data_length + 1

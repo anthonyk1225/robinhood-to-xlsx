@@ -1,5 +1,5 @@
 import requests
-from settings import client_id, robinhood_version
+from settings import client_id, robinhood_version, oauth_url
 from credentials import username, password, device_token
 # from utils.device_token import generate_device_token
 
@@ -33,10 +33,8 @@ def login(grant_type, mfa_code="", refresh_token=""):
   if len(refresh_token):
     json["refresh_token"] = refresh_token
 
-  url="https://api.robinhood.com/oauth2/token/"
-
   response = requests.post(
-    url,
+    oauth_url,
     headers=headers,
     json=json
   )

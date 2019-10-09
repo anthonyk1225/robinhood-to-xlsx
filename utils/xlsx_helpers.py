@@ -5,46 +5,40 @@ from utils.instruments import\
   handle_fetched_instrument_data,\
     handle_fetched_option_instrument_data
 
-def aggregate_symbols(data, symbol, amount):
-  if symbol in data:
-    data[symbol] += float(amount)
-  else:
-    data[symbol] = float(amount)
-  return data
-
 def dividends(file_results):
   dividends = []
-  company_totals = {}
+
   for item in file_results:
     try:
       instrument = item['instrument']
       fetched_row = get_instruments(instrument)
       simple_name, symbol = handle_fetched_instrument_data(fetched_row, instrument)
       item['simple_name'], item['symbol'] = simple_name, symbol
-      company_totals = aggregate_symbols(company_totals, symbol, item['amount'])
       dividends.append(item)
     except Exception as e:
       print("There was an error fetching the instrument in dividend", str(e))
-  return dividends, company_totals
+  return dividends
 
 def events(file_results):
   events = []
+
   for item in file_results:
     if item['state'] == 'confirmed' and item['type'] != 'expiration':
       option_instrument = item['option']
       fetched_row = get_option_instruments(option_instrument)
       instrument_values = handle_fetched_option_instrument_data(fetched_row, option_instrument)
+
       (item['strike_price'],
       item['chain_symbol'],
       item['option_type'],
       item['expiration_date'],
       item['created_at']) = instrument_values
-      events.append(item)
-  return events, {}
 
-def events_orders(file_results, aggregates):
+      events.append(item)
+  return events
+
+def events_orders(file_results):
   events_orders = []
-  company_totals = aggregates
 
   for item in file_results:
     if item['state'] == 'confirmed' and item['type'] != 'expiration':
@@ -73,7 +67,7 @@ def events_orders(file_results, aggregates):
       }
 
       events_orders.append(event_order)
-  return events_orders, company_totals
+  return events_orders
 
 def options(file_results):
   options = []
@@ -99,11 +93,10 @@ def options(file_results):
     #     print("There was an error fetching the instrument", str(e))
       options.append(item)
 
-  return options, {}
+  return options
 
 def orders(file_results):
   orders = []
-  company_totals = {}
 
   for item in file_results:
     if item['state'] == 'filled':
@@ -118,7 +111,8 @@ def orders(file_results):
         orders.append(item)
       except Exception as e:
         print("There was an error fetching the instrument", str(e))
-  return orders, company_totals
+
+  return orders
 
 entity_helpers = {
   "dividends": dividends,
