@@ -2,8 +2,9 @@
 
 client_id = "c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS" # static id
 robinhood_version = "1.275.0"
+oauth_url = "https://api.robinhood.com/oauth2/token/"
 
-# formatting
+# formatting for excel cells
 
 currency = { 'num_format': '$0.00' }
 currency_extended = { 'num_format': '$0.0000' }
