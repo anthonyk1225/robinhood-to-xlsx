@@ -8,7 +8,7 @@ def aggregate_symbols(data, symbol, amount):
   return data
 
 def aggregate_data(data):
-  company_totals = []
+  company_totals = {}
   for item in data:
     symbol, amount = item['symbol'], item['amount']
     company_totals = aggregate_symbols(company_totals, symbol, amount)
