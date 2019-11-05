@@ -1,0 +1,59 @@
+{
+  "cancel_url": null,
+  "canceled_quantity": "0.00000",
+  "chain_id": "xxx",
+  "chain_symbol": "APRN",
+  "closing_strategy": "short_call_spread",
+  "created_at": "2019-10-24T19:19:53.835033Z",
+  "direction": "debit",
+  "id": "xxx",
+  "legs": [
+    {
+      "executions": [
+        {
+          "id": "xxx",
+          "price": "1.28000000",
+          "quantity": "1.00000",
+          "settlement_date": "2019-10-25",
+          "timestamp": "2019-10-24T19:56:01.452000Z"
+        }
+      ],
+      "id": "xxx",
+      "option": "https://api.robinhood.com/options/instruments/xxx/",
+      "position_effect": "close",
+      "ratio_quantity": 1,
+      "side": "buy"
+    },
+    {
+      "executions": [
+        {
+          "id": "xxx",
+          "price": "0.43000000",
+          "quantity": "1.00000",
+          "settlement_date": "2019-10-25",
+          "timestamp": "2019-10-24T19:56:01.452000Z"
+        }
+      ],
+      "id": "xxx",
+      "option": "https://api.robinhood.com/options/instruments/xxx/",
+      "position_effect": "close",
+      "ratio_quantity": 1,
+      "side": "sell"
+    }
+  ],
+  "opening_strategy": null,
+  "pending_quantity": "0.00000",
+  "premium": "85.00000000",
+  "price": "0.85000000",
+  "processed_premium": "85.00000000000000000",
+  "processed_quantity": "1.00000",
+  "quantity": "1.00000",
+  "ref_id": "xxx",
+  "response_category": "success",
+  "state": "filled",
+  "stop_price": null,
+  "time_in_force": "gfd",
+  "trigger": "immediate",
+  "type": "limit",
+  "updated_at": "2019-10-24T19:56:02.013297Z"
+}

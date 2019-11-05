@@ -1,0 +1,47 @@
+{
+  "account": "https://api.robinhood.com/accounts/xxx/",
+  "average_price": null,
+  "cancel": null,
+  "created_at": "2019-11-01T14:21:48.795701Z",  
+  "cumulative_quantity": "0.00000000",
+  "executions": [
+    {
+      "timestamp": "2019-07-03T14:54:49.027000Z",
+      "price": "74.00000000",
+      "settlement_date": "2019-07-08",
+      "id": "xxx",
+      "quantity": "1.00000"
+    },
+    {
+      "timestamp": "2019-07-03T14:54:49.032000Z",
+      "price": "74.01000000",
+      "settlement_date": "2019-07-08",
+      "id": "xxx",
+      "quantity": "9.00000"
+    }
+  ],
+  "extended_hours": false,
+  "fees": "0.00",
+  "id": "xxx",
+  "instrument": "https://api.robinhood.com/instruments/xxx/",
+  "last_trail_price": null,
+  "last_trail_price_updated_at": null,
+  "last_transaction_at": "2019-11-01T14:24:01.895000Z",
+  "override_day_trade_checks": false,
+  "override_dtbp_checks": false,
+  "position": "https://api.robinhood.com/positions/xxx/xxx/",
+  "price": "19.00000000",
+  "quantity": "5.00000000",
+  "ref_id": "xxx",
+  "reject_reason": null,
+  "response_category": "unknown",
+  "side": "buy",
+  "state": "cancelled",
+  "stop_price": null,
+  "stop_triggered_at": null,
+  "time_in_force": "gfd",
+  "trigger": "immediate",
+  "type": "limit",
+  "updated_at": "2019-11-01T14:24:02.396819Z",
+  "url": "https://api.robinhood.com/orders/xxx/"
+}
