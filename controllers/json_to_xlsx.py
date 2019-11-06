@@ -23,6 +23,18 @@ def handle_events_orders(entity):
 
   return entity_helpers["events_orders"](file_results)
 
+def handle_events_options(entity):
+  file_results = []
+  directory = entity_directories["events"]
+
+  for filename in os.listdir(directory):
+    with open(directory + filename) as f:
+      if f.name.endswith('.json'):
+        file_data = json.loads(f.read())
+        file_results = file_results + file_data['results']
+
+  return entity_helpers["events_options"](file_results)
+
 def run(entity):
   entity_filename = entity_filenames[entity]
   directory = entity_directories[entity]
@@ -44,6 +56,10 @@ def run(entity):
 
   if entity == "orders":
     new_filtered_data = handle_events_orders(entity)
+    filtered_data = filtered_data + new_filtered_data
+    
+  if entity == "options":
+    new_filtered_data = handle_events_options(entity)
     filtered_data = filtered_data + new_filtered_data
 
   sorted_data = sorted(
