@@ -16,6 +16,9 @@ instruments = [
   { "name": 'simple_name', "width": 40, 'formatting': {}, "cell_type": "string" },
   { "name": 'symbol', "width": 10, 'formatting': {}, "cell_type": "string" },
 ]
+
+# option instruments
+
 option_instruments = [
   { "name": 'chain_symbol', "width": 15, "formatting": {}, "cell_type": "string" },
   { "name": 'strike_price', "width": 15, "formatting": currency, "cell_type": "number" },
@@ -35,7 +38,6 @@ selected_keys_dividends = [
   { 'name': 'rate', 'width': 15, 'formatting': currency_extended, 'cell_type': 'number' },
   { 'name': 'record_date', 'width': 15, 'formatting': {}, 'cell_type': 'string' },
   { 'name': 'position', 'width': 15, 'formatting': integer, 'cell_type': 'number' },
-  { 'name': 'withholding', 'width': 15, 'formatting': integer, 'cell_type': 'number' },
   *instruments,
 ]
 
@@ -60,12 +62,17 @@ history_endpoint_options = "https://api.robinhood.com/options/orders/"
 json_directory_options = 'data/options/'
 xlsx_filename_options = 'xlsx/options.xlsx'
 selected_keys_options = [
-  # *option_instruments,
-  { "name": "chain_symbol", "width": 15, "formatting": {}, "cell_type": "string" },
-  { "name": "quantity", "width": 15, "formatting": {}, "cell_type": "number" },
-  { "name": "processed_premium", "width": 15, "formatting": currency, "cell_type": "number" },
-  { "name": "premium", "width": 15, "formatting": currency, "cell_type": "number" },
+  { "name": "opening_strategy", "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": "closing_strategy", "width": 15, "formatting": {}, "cell_type": "string" },
   { "name": "direction", "width": 15, "formatting": {}, "cell_type": "string" },
+  { "name": "premium", "width": 15, "formatting": currency, "cell_type": "number" },
+  { "name": "processed_premium", "width": 15, "formatting": currency, "cell_type": "number" },
+  { "name": "quantity", "width": 15, "formatting": {}, "cell_type": "number" },
+  *option_instruments,
+
+  # custom fields
+  { "name": 'total_legs', "width": 15, "formatting": {}, "cell_type": "number" },
+  { "name": 'total_executions', "width": 15, "formatting": {}, "cell_type": "number" },
 ]
 
 # events
