@@ -23,7 +23,7 @@ def events(file_results):
   events = []
 
   for item in file_results:
-    if item['state'] == 'confirmed' and item['type'] != 'expiration':
+    if item['state'] == 'confirmed':
       option_instrument = item['option']
       fetched_row = get_option_instruments(option_instrument)
       instrument_values = handle_fetched_option_instrument_data(fetched_row, option_instrument)
@@ -74,26 +74,96 @@ def options(file_results):
 
   for item in file_results:
     if item['state'] == 'filled':
-    # for leg in item['legs']:
-    #   option_instrument_url = leg["option"]
-    #   side, effect = leg["side"], leg["position_effect"]
+      total_legs = len(item['legs'])
 
-    #   try:
-    #     option_instrument_data = get_option_instruments(option_instrument_url)
-    #     option_instrument_values = handle_fetched_option_instrument_data(
-    #       option_instrument_data,
-    #       option_instrument_url,
-    #     )
-    #     (item['strike_price'],
-    #     item['chain_symbol'],
-    #     item['option_type'],
-    #     item['expiration_date'],
-    #     item['created_at']) = option_instrument_values
-    #   except Exception as e:
-    #     print("There was an error fetching the instrument", str(e))
-      options.append(item)
+      for leg in item['legs']:
+        option = {}
+        option['total_legs'] = total_legs
+        option['opening_strategy'] = item['opening_strategy'] or 'None'
+        option['closing_strategy'] = item['closing_strategy'] or 'None'
+        option['created_at'] = item['created_at']
 
+        try:
+          option_instrument_url = leg["option"]
+          option['direction'] = leg["side"]
+
+          option_instrument_data = get_option_instruments(option_instrument_url)
+          option_instrument_values = handle_fetched_option_instrument_data(
+            option_instrument_data,
+            option_instrument_url,
+          )
+
+          (option['strike_price'],
+          option['chain_symbol'],
+          option['option_type'],
+          option['expiration_date'],
+          instrument_created_at) = option_instrument_values
+
+          total_quantity = 0
+          total_price = 0
+          total_executions = 0
+
+          for execution in leg['executions']:
+            total_price += float(execution['price'])
+            total_quantity += float(execution['quantity'])
+            total_executions += 1
+
+          avg_price = total_price / total_quantity
+          option['quantity'] = total_quantity
+          option['price'] = avg_price
+          option['premium'] = avg_price * 100 
+          option['processed_premium'] = (avg_price * 100) * total_quantity
+          option['total_executions'] = total_executions
+
+          options.append(option)
+        except Exception as e:
+          print("There was an error fetching the instrument", str(e))
   return options
+
+def events_options(file_results):
+  events_options = []
+
+  for item in file_results:
+    if item['state'] == 'confirmed':
+      option_instrument = item['option']
+      quantity = item['quantity']
+      fetched_row = get_option_instruments(option_instrument)
+      instrument_values = handle_fetched_option_instrument_data(fetched_row, option_instrument)
+
+      (strike_price,
+      chain_symbol,
+      option_type,
+      expiration_date,
+      created_at) = instrument_values
+
+
+      direction = item['direction']
+      if direction == "debit":
+        direction = "buy"
+      else:
+        direction = "sell"
+
+      if item["type"] == "exercise":
+        direction = "sell"
+
+      event_option = {
+        "created_at": expiration_date,
+        "expiration_date": expiration_date,
+        "strike_price": strike_price,
+        "chain_symbol": chain_symbol,
+        "closing_strategy": item['type'],
+        "opening_strategy": "None",
+        "direction": direction,
+        "premium": "0",
+        "processed_premium": "0",
+        "quantity": quantity,
+        "option_type": option_type,
+        "total_legs": "1",
+        "total_executions": "1",
+      }
+
+      events_options.append(event_option)
+  return events_options
 
 def orders(file_results):
   orders = []
@@ -118,6 +188,7 @@ entity_helpers = {
   "dividends": dividends,
   "events": events,
   "events_orders": events_orders,
+  "events_options": events_options,
   "orders": orders,
   "options": options
 }

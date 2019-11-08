@@ -1,0 +1,14 @@
+{
+  "account": "https://api.robinhood.com/accounts/xxx/",
+  "amount": "9.60",
+  "id": "xxx",
+  "instrument": "https://api.robinhood.com/instruments/xxx/",
+  "paid_at": "2018-11-21T11:08:15.650060Z",
+  "payable_date": "2018-11-15",
+  "position": "10.0000",
+  "rate": "0.9600000000",
+  "record_date": "2018-10-15",
+  "state": "paid",
+  "url": "https://api.robinhood.com/dividends/xxx/",
+  "withholding": "0.00"
+}
