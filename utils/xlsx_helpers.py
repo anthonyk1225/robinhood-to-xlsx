@@ -136,14 +136,22 @@ def events_options(file_results):
       expiration_date,
       created_at) = instrument_values
 
+
       direction = item['direction']
+      if direction == "debit":
+        direction = "buy"
+      else:
+        direction = "sell"
+
+      if item["type"] == "exercise":
+        direction = "sell"
 
       event_option = {
         "created_at": expiration_date,
         "expiration_date": expiration_date,
         "strike_price": strike_price,
         "chain_symbol": chain_symbol,
-        "closing_strategy": "expiration",
+        "closing_strategy": item['type'],
         "opening_strategy": "None",
         "direction": direction,
         "premium": "0",

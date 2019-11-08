@@ -5,45 +5,47 @@ def aggregate_data(data):
 
   for row in data:
     symbol = row['chain_symbol']
-    processed_premium = row['processed_premium']
-    opening_strategy = row['opening_strategy']
+    premium = float(row['premium'])
     direction = row['direction']
+    strike_price = str(row["strike_price"])
+    quantity = float(row['quantity'])
+    opening_strategy = row['opening_strategy']
+    closing_strategy = row['closing_strategy']
 
     if symbol not in aggregates:
       aggregates[symbol] = {
-        'realized_gain': 0,
-        'equity': 0,
-        'quantity': 0,
+        "realized_gain": 0,
       }
 
-    if opening_strategy != 'None': # open
-      aggregates[symbol]['quantity'] += float(row['quantity'])
-      if direction == 'buy':
-        aggregates[symbol]['equity'] += float(processed_premium)
+    if opening_strategy != "None":
+      direction_total = 1 if direction == "sell" else -1
+      if strike_price not in aggregates[symbol]:
+        aggregates[symbol][strike_price] = {
+          "total": (premium * quantity) * direction_total,
+          "quantity": quantity
+        }
       else:
-        aggregates[symbol]['equity'] -= float(processed_premium)
-    else: # close
-      equity_average = aggregates[symbol]['equity'] / aggregates[symbol]['quantity']
-      equity_to_sell = equity_average * float(row['quantity'])
+        aggregates[symbol][strike_price]["total"] += ((premium * quantity) * direction_total)
+        aggregates[symbol][strike_price]["quantity"] += quantity
+    else:
+      aggregate_strike = aggregates[symbol][strike_price]
+      strike_total = aggregate_strike['total']
+      strike_quantity = aggregate_strike['quantity']
+      avg_price = strike_total / strike_quantity
 
-      aggregates[symbol]['quantity'] -= float(row['quantity'])
-
-      if direction == 'buy':
-        aggregates[symbol]['equity'] += equity_to_sell
-        aggregates[symbol]['realized_gain'] += equity_to_sell - float(processed_premium)
+      if direction == "buy":
+        p_l = (avg_price * quantity) - (premium * quantity)
       else:
-        aggregates[symbol]['equity'] -= equity_to_sell
-        aggregates[symbol]['realized_gain'] += float(processed_premium) - equity_to_sell
+        p_l = (avg_price * quantity) + (premium * quantity)
 
-      if symbol == "AAPL":
-        print(processed_premium, equity_to_sell)
-        print(aggregates[symbol]['realized_gain'])
+      aggregates[symbol][strike_price]["total"] -= (avg_price * quantity)
+      aggregates[symbol]["realized_gain"] += p_l
+      aggregates[symbol][strike_price]["quantity"] -= quantity
 
   return aggregates 
 
 def write_aggregates(worksheet, workbook, data):
   aggregates = aggregate_data(data)
-
   data_length = len(aggregates)
   starting_row = 1
   ending_row = starting_row + data_length + 1
@@ -70,10 +72,10 @@ def write_aggregates(worksheet, workbook, data):
           'format': money_format,
         },
         {
-          'header': 'SHARES HELD'
+          'header': 'LEGS HELD'
         },
         {
-          'header': 'EQUITY OWNED',
+          'header': 'UNREALIZED PREMIUM',
           'total_function': 'sum',
           'format': money_format,
         }
@@ -84,12 +86,17 @@ def write_aggregates(worksheet, workbook, data):
 
   row = starting_row + 1
   for k, v in aggregates.items():
+    total = 0
+    quantity = 0
+    for j, x in v.items():
+      if type(x) is dict:
+        total += x["total"]
+        quantity += x["quantity"]
     worksheet.write(f"A{row}", k)
     worksheet.write(f"B{row}", v['realized_gain'], money_format)
-    worksheet.write(f"C{row}", v['quantity'])
-    worksheet.write(f"D{row}", v['equity'], money_format)
+    worksheet.write(f"C{row}", quantity)
+    worksheet.write(f"D{row}", total * -1, money_format)
     row += 1
 
 def handle_formulas(worksheet, workbook, data):
   write_aggregates(worksheet, workbook, data)
-  pass
