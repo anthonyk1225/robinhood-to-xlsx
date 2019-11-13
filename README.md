@@ -10,15 +10,23 @@ You are going to need / want to use
 ## Installation
 
 After forking, cloning into wherever
+#### unix
 ```
 $ cd to/wherever/it/is
 $ virtualenv venv
 $ source venv/bin/activate
 (venv) $ pip3 install -r requirements.txt
 ```
+#### pc
+```
+$ cd to\wherever\it\is
+$ virtualenv venv 
+$ venv\scripts\activate
+(venv) $ pip3 install -r requirements.txt
+```
 
 ## Credentials file
-The file will look like this
+Create the file and have it look like this using the instructions below
 ```
 # your credentials
 username = "" # Your robinhood username or email
@@ -28,7 +36,7 @@ password = "" # Your robinhood password
 device_token = "" # Your device token in the headers
 
 ```
-- `(venv) $ touch credentials.py`
+- `(venv) $ touch credentials.py` - for unix users otherwise manually create the file
 - Update `username="yourusername"`, `password="yourpassword"`
 - Log in to robinhood and open up the inspector (`cmd+opt+i` on mac)
 - Type `document.cookie` in the console and copy your `device_token`
@@ -53,12 +61,12 @@ Good question. This will allow you to easily download your history from robinhoo
 
 When exported, it will have aggregated data such as **total P/L** or **Most successful company traded**(Coming soon).
 
-Of course, you will be able to amend the file to your liking afterwards as well. You can even adjust the controller files & settings as well, in case you would like it to be a staple in your exports. 
+Of course, you will be able to amend the file to your liking afterwards as well. You can even adjust the controller files & settings, in case you would like it to be a staple in your exports. 
 
 ## Settings
 The `settings.py` file contains what data the excel file will contain. For example, if you would like to include more information in the export to dividends, all you need to do is adjust `selected_keys_dividends`. Same goes for if you would like to remove a column.  You can also adjust the width of the columns by adjusting the width field for each respective dict.
 
-You can see all of the fields available to include, by looking in the `data` folder and then the respective entity.
+You can see all of the fields available to include, by looking in the `schema` folder and then the respective entity.
 
 ## Formulas
 After all of the rows get written, the forumlas that are assinged in the respective files get executed. These are located in the `formulas` folder. Any other aggregate data that you would like to display will go here.
