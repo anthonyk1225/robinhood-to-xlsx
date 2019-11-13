@@ -71,6 +71,10 @@ You can see all of the fields available to include, by looking in the `schema` f
 ## Formulas
 After all of the rows get written, the forumlas that are assinged in the respective files get executed. These are located in the `formulas` folder. Any other aggregate data that you would like to display will go here.
 
+## Devices on your account
+When using this app, your account's devices will update and look something like this.
+![](robinhood-devices.png)
+
 ## Contributing
 
 Feel free to leave a pull request, or raise issues for any topic you may have.
