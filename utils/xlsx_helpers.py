@@ -74,11 +74,9 @@ def options(file_results):
 
   for item in file_results:
     if item['state'] == 'filled':
-      total_legs = len(item['legs'])
 
       for leg in item['legs']:
         option = {}
-        option['total_legs'] = total_legs
         option['opening_strategy'] = item['opening_strategy'] or 'None'
         option['closing_strategy'] = item['closing_strategy'] or 'None'
         option['created_at'] = item['created_at']
@@ -101,19 +99,16 @@ def options(file_results):
 
           total_quantity = 0
           total_price = 0
-          total_executions = 0
 
           for execution in leg['executions']:
             total_price += float(execution['price'])
             total_quantity += float(execution['quantity'])
-            total_executions += 1
 
           avg_price = total_price / total_quantity
           option['quantity'] = total_quantity
           option['price'] = avg_price
           option['premium'] = avg_price * 100 
           option['processed_premium'] = (avg_price * 100) * total_quantity
-          option['total_executions'] = total_executions
 
           options.append(option)
         except Exception as e:
@@ -158,8 +153,6 @@ def events_options(file_results):
         "processed_premium": "0",
         "quantity": quantity,
         "option_type": option_type,
-        "total_legs": "1",
-        "total_executions": "1",
       }
 
       events_options.append(event_option)

@@ -69,10 +69,6 @@ selected_keys_options = [
   { "name": "processed_premium", "width": 15, "formatting": currency, "cell_type": "number" },
   { "name": "quantity", "width": 15, "formatting": {}, "cell_type": "number" },
   *option_instruments,
-
-  # custom fields
-  { "name": 'total_legs', "width": 15, "formatting": {}, "cell_type": "number" },
-  { "name": 'total_executions', "width": 15, "formatting": {}, "cell_type": "number" },
 ]
 
 # events
