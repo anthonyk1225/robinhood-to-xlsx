@@ -131,7 +131,6 @@ def events_options(file_results):
       expiration_date,
       created_at) = instrument_values
 
-
       direction = item['direction']
       if direction == "debit":
         direction = "buy"

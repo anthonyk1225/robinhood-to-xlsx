@@ -4,7 +4,6 @@ from sql.db import run as create_tables
 
 def run(report):
   create_tables()
-
   headers = create_headers()
   counter = 1
   has_next = True
@@ -12,7 +11,7 @@ def run(report):
   url = report["url"]
   filename = report["filename"]
   directory = report["dir"]
-
+  print(f"Starting to grab robinhood {filename} history")
   while has_next:
     options = requests.get(
       url,
@@ -33,3 +32,4 @@ def run(report):
       url = next_url
     else:
       has_next = False
+  print(f"Finished grabbing robinhood {filename} history")

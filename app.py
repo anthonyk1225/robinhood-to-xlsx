@@ -18,15 +18,14 @@ json_or_xlsx = [
 
 type_of_report = [
   {
-    'type': 'list',
+    'type': 'checkbox',
     'name': 'report',
     'message': "What would you like to generate?",
     'choices': [
-      'dividends',
-      'events',
-      'options',
-      'orders',
-      'cancel',
+      { 'name': 'dividends' },
+      { 'name': 'events' },
+      { 'name': 'options' },
+      { 'name': 'orders' },
     ]
   }
 ]
@@ -35,16 +34,14 @@ def run():
   generate_json_or_xlsx = prompt(json_or_xlsx)
   generate_json_or_xlsx_answer = generate_json_or_xlsx["json_or_xlsx"]
   report = prompt(type_of_report)
-  report_answer = report["report"]
-
-  if report_answer == 'cancel':
-    print("Cancelled")
-    return False
+  report_answers = report["report"]
 
   if generate_json_or_xlsx_answer == 'xlsx(Excel file)':
-    json_to_xlsx.run(report_answer)
+    for answer in report_answers:
+      json_to_xlsx.run(answer)
   elif generate_json_or_xlsx_answer == 'json(Robinhood history)':
-    fetch_user_json.run(reports[report_answer])
+    for answer in report_answers:
+      fetch_user_json.run(reports[answer])
   return True
 
 if __name__ == '__main__':

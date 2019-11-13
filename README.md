@@ -50,9 +50,9 @@ Two choices follow
 - `json`
 - `xlsx`
 ##### Getting your history - json
-When you want to get the most up to date history, select `json` and then any of the selections.
+When you want to get the most up to date history, select `json` and then any of the selections from the checkboxes.
 ##### Generating excel files - xlsx
-When you want to generate an excel file from the `json` you have stored, select `xlsx`.
+When you want to generate an excel file from the `json` you have stored, select `xlsx` and then any of the selections from the checkboxes.
 
 ![](https://pbs.twimg.com/media/DOKNxxPVAAAbun0.jpg)
 

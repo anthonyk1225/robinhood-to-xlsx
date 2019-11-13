@@ -36,6 +36,7 @@ def handle_events_options(entity):
   return entity_helpers["events_options"](file_results)
 
 def run(entity):
+  print(f"Starting to write {entity} to xlsx")
   entity_filename = entity_filenames[entity]
   directory = entity_directories[entity]
   selected_keys = selected_entity_keys[entity]
@@ -78,5 +79,5 @@ def run(entity):
 
   formula_worksheet = create_worksheet(workbook)
   formula_pipelines[entity](formula_worksheet, workbook, sorted_data)
-
+  print(f"Finished writing {entity} to xlsx")
   workbook.close()
