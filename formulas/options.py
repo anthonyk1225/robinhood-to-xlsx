@@ -27,7 +27,7 @@ def aggregate_data(data):
       else:
         aggregates[symbol][strike_price]["total"] += ((premium * quantity) * direction_total)
         aggregates[symbol][strike_price]["quantity"] += quantity
-    else:
+    elif closing_strategy != "None":
       aggregate_strike = aggregates[symbol][strike_price]
       strike_total = aggregate_strike['total']
       strike_quantity = aggregate_strike['quantity']
@@ -41,8 +41,10 @@ def aggregate_data(data):
       aggregates[symbol][strike_price]["total"] -= (avg_price * quantity)
       aggregates[symbol]["realized_gain"] += p_l
       aggregates[symbol][strike_price]["quantity"] -= quantity
+    else:
+      print("No strategy found for leg")
 
-  return aggregates 
+  return aggregates
 
 def write_aggregates(worksheet, workbook, data):
   aggregates = aggregate_data(data)

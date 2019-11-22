@@ -11,7 +11,7 @@ from utils.file_io import\
 from utils.xlsx_helpers import entity_helpers
 from formulas.index import formula_pipelines
 
-def handle_events_orders(entity):
+def handle_events(entity):
   file_results = []
   directory = entity_directories["events"]
 
@@ -21,19 +21,7 @@ def handle_events_orders(entity):
         file_data = json.loads(f.read())
         file_results = file_results + file_data['results']
 
-  return entity_helpers["events_orders"](file_results)
-
-def handle_events_options(entity):
-  file_results = []
-  directory = entity_directories["events"]
-
-  for filename in os.listdir(directory):
-    with open(directory + filename) as f:
-      if f.name.endswith('.json'):
-        file_data = json.loads(f.read())
-        file_results = file_results + file_data['results']
-
-  return entity_helpers["events_options"](file_results)
+  return entity_helpers[f"events_{entity}"](file_results)
 
 def run(entity):
   print(f"Starting to write {entity} to xlsx")
@@ -55,12 +43,8 @@ def run(entity):
 
   filtered_data = entity_helpers[entity](file_results)
 
-  if entity == "orders":
-    new_filtered_data = handle_events_orders(entity)
-    filtered_data = filtered_data + new_filtered_data
-    
-  if entity == "options":
-    new_filtered_data = handle_events_options(entity)
+  if entity == "orders" or entity == "options":
+    new_filtered_data = handle_events(entity)
     filtered_data = filtered_data + new_filtered_data
 
   sorted_data = sorted(

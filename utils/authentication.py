@@ -67,7 +67,10 @@ def generate_auth_tokens():
       except Exception as e:
         print('Something went wrong, ', str(e))
 
-  return response["access_token"], response["refresh_token"]
+  try:
+    return response["access_token"], response["refresh_token"]
+  except Exception as e:
+    print("Invalid credentials provided", str(e))
 
 def create_headers():
   auth_tokens = get_auth_tokens()

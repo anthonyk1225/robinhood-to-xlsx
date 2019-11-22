@@ -74,7 +74,6 @@ def options(file_results):
 
   for item in file_results:
     if item['state'] == 'filled':
-
       for leg in item['legs']:
         option = {}
         option['opening_strategy'] = item['opening_strategy'] or 'None'
@@ -101,18 +100,19 @@ def options(file_results):
           total_price = 0
 
           for execution in leg['executions']:
-            total_price += float(execution['price'])
+            total_price += (float(execution['price']) * float(execution['quantity']))
             total_quantity += float(execution['quantity'])
 
           avg_price = total_price / total_quantity
           option['quantity'] = total_quantity
           option['price'] = avg_price
-          option['premium'] = avg_price * 100 
+          option['premium'] = avg_price * 100
           option['processed_premium'] = (avg_price * 100) * total_quantity
 
           options.append(option)
         except Exception as e:
           print("There was an error fetching the instrument", str(e))
+
   return options
 
 def events_options(file_results):
