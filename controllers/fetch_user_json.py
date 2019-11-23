@@ -1,6 +1,7 @@
 import requests, json
 from utils.authentication import create_headers
 from sql.db import run as create_tables
+from settings import history_endpoint_referrals
 
 def run(report):
   create_tables()
@@ -32,4 +33,12 @@ def run(report):
       url = next_url
     else:
       has_next = False
+
   print(f"Finished grabbing robinhood {filename} history")
+
+  if filename == "orders":
+    run({
+      "url": history_endpoint_referrals,
+      "filename": "referrals",
+      "dir": "referrals"
+    })

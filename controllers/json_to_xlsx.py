@@ -23,6 +23,18 @@ def handle_events(entity):
 
   return entity_helpers[f"events_{entity}"](file_results)
 
+def handle_referrals():
+  file_results = []
+  directory = entity_directories["referrals"]
+
+  for filename in os.listdir(directory):
+    with open(directory + filename) as f:
+      if f.name.endswith('.json'):
+        file_data = json.loads(f.read())
+        file_results = file_results + file_data['results']
+    
+  return entity_helpers['referrals'](file_results)
+
 def run(entity):
   print(f"Starting to write {entity} to xlsx")
   entity_filename = entity_filenames[entity]
@@ -42,6 +54,10 @@ def run(entity):
         file_results = file_results + file_data['results']
 
   filtered_data = entity_helpers[entity](file_results)
+
+  if entity == "orders":
+    new_filered_data = handle_referrals()
+    filtered_data = filtered_data + new_filered_data
 
   if entity == "orders" or entity == "options":
     new_filtered_data = handle_events(entity)

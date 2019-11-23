@@ -1,5 +1,5 @@
 import requests
-from settings import client_id, robinhood_version, oauth_url
+from settings import base_url, client_id, robinhood_version, oauth_url
 from credentials import username, password, device_token
 # from utils.device_token import generate_device_token
 
@@ -83,7 +83,7 @@ def create_headers():
   headers = { "Authorization": 'Bearer {token}'.format(token=auth_tokens[0][0]) }
 
   test = requests.get(
-    "https://api.robinhood.com/fundamentals/zzzzzzzzzzz/",
+    f"{base_url}/fundamentals/zzzzzzzzzzz/",
     headers=headers
   )
 

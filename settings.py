@@ -1,8 +1,9 @@
 # robinhood specific values
 
+base_url = "https://api.robinhood.com"
 client_id = "c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS" # static id
 robinhood_version = "1.275.0"
-oauth_url = "https://api.robinhood.com/oauth2/token/"
+oauth_url = f"{base_url}/oauth2/token/"
 
 # formatting for excel cells
 
@@ -27,9 +28,14 @@ option_instruments = [
   { "name": 'created_at', "width": 15, "formatting": {}, "cell_type": "string" },
 ]
 
+# referrals
+
+history_endpoint_referrals = f"{base_url}/midlands/referral/"
+json_directory_referrals = 'data/referrals/'
+
 # dividends
 
-history_endpoint_dividends = "https://api.robinhood.com/dividends/"
+history_endpoint_dividends = f"{base_url}/dividends/"
 json_directory_dividends = 'data/dividends/'
 xlsx_filename_dividends = 'xlsx/dividends.xlsx'
 selected_keys_dividends = [
@@ -43,7 +49,7 @@ selected_keys_dividends = [
 
 # orders
 
-history_endpoint_orders = "https://api.robinhood.com/orders/"
+history_endpoint_orders = f"{base_url}/orders/"
 json_directory_orders = 'data/orders/'
 xlsx_filename_orders = 'xlsx/orders.xlsx'
 selected_keys_orders = [
@@ -56,9 +62,9 @@ selected_keys_orders = [
   *instruments,
 ]
 
-# options
+# options, (currently not able to amend fields)
 
-history_endpoint_options = "https://api.robinhood.com/options/orders/"
+history_endpoint_options = f"{base_url}/options/orders/"
 json_directory_options = 'data/options/'
 xlsx_filename_options = 'xlsx/options.xlsx'
 selected_keys_options = [
@@ -73,7 +79,7 @@ selected_keys_options = [
 
 # events
 
-history_endpoint_events = "https://api.robinhood.com/options/events/"
+history_endpoint_events = f"{base_url}/options/events/"
 json_directory_events = 'data/events/'
 xlsx_filename_events = 'xlsx/events.xlsx'
 selected_keys_events = [
@@ -98,7 +104,8 @@ entity_directories = {
   "events": json_directory_events,
   "options": json_directory_options,
   "orders": json_directory_orders,
-  "dividends": json_directory_dividends
+  "dividends": json_directory_dividends,
+  "referrals": json_directory_referrals,
 }
 
 selected_entity_keys = {

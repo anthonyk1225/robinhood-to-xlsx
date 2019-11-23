@@ -62,7 +62,7 @@ def events_orders(file_results):
         "quantity": shares,
         "settlement_date": expiration_date,
         "price": strike_price,
-        "simple_name": "Events",
+        "simple_name": f"Events ({item['type']})",
         "symbol": chain_symbol,
       }
 
@@ -176,11 +176,30 @@ def orders(file_results):
 
   return orders
 
+def referrals(file_results):
+  referrals = []
+
+  for item in file_results:
+    if item["state"] == 'received':
+      if item['reward']:
+        if item['reward']['stocks']:
+          stocks = item['reward']['stocks']
+          for stock in stocks:
+            stock['simple_name'] = "Referral Bonus"
+            stock["fees"] = "0"
+            stock["side"] = "buy"
+            stock["price"] = stock["cost_basis"]
+            stock["settlement_date"] = stock["received_at"]
+            referrals.append(stock)
+
+  return referrals
+
 entity_helpers = {
   "dividends": dividends,
   "events": events,
   "events_orders": events_orders,
   "events_options": events_options,
   "orders": orders,
-  "options": options
+  "options": options,
+  "referrals": referrals,
 }
