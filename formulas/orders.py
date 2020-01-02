@@ -30,33 +30,30 @@ def aggregate_data(data):
 def get_company_totals(totals):
   buy_quantity = totals['buy']['quantity']
   sell_quantity = totals['sell']['quantity']
-  quantity_difference = buy_quantity - sell_quantity
+  shares_held = buy_quantity - sell_quantity
 
   buy_equity = totals['buy']['equity']
   sell_equity = totals['sell']['equity']
 
-  average_buy_price = buy_equity / buy_quantity
-  average_sell_price = sell_equity / sell_quantity
+  average_buy_price = 0 if buy_quantity == 0 else buy_equity / buy_quantity
+  average_sell_price = 0 if sell_quantity == 0 else sell_equity / sell_quantity
+
+  buy_total, sell_total, current_equity = 0, 0, 0
 
   if buy_quantity >= sell_quantity:
     buy_total = sell_quantity * average_buy_price
     sell_total = sell_quantity * average_sell_price
-
-    return {
-      'realized_gain': sell_total - buy_total,
-      'quantity': quantity_difference,
-      'equity': average_buy_price * (quantity_difference),
-    }
-
-  buy_total = buy_quantity * average_buy_price
-  sell_total = buy_quantity * average_sell_price
+    current_equity = average_buy_price * shares_held
+  else:
+    buy_total = buy_quantity * average_buy_price
+    sell_total = buy_quantity * average_sell_price
+    current_equity = average_sell_price * shares_held
 
   return {
     'realized_gain': sell_total - buy_total,
-    'quantity': quantity_difference,
-    'equity': average_sell_price * (quantity_difference)
+    'quantity': shares_held,
+    'equity': current_equity,
   }
-
 
 def write_aggregates(worksheet, workbook, data):
   aggregates = aggregate_data(data)
