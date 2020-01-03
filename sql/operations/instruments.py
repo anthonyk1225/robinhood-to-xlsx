@@ -23,8 +23,7 @@ def create_option_instruments(
   strike_price,
   chain_symbol,
   option_type,
-  expiration_date,
-  created_at,
+  expiration_date
 ):
   """
   returns INTEGER
@@ -33,9 +32,9 @@ def create_option_instruments(
 
   conn = sqlite3.connect('robinhood.db')
   command = "INSERT INTO option_instruments\
-    (url, strike_price, chain_symbol, type, expiration_date, created_at)\
-    VALUES ('{}', '{}', '{}', '{}', '{}', '{}');".format(
-      url, strike_price, chain_symbol, option_type, expiration_date, created_at,
+    (url, strike_price, chain_symbol, type, expiration_date)\
+    VALUES ('{}', '{}', '{}', '{}', '{}');".format(
+      url, strike_price, chain_symbol, option_type, expiration_date,
     )
 
   cursor = conn.execute(command)
@@ -71,7 +70,7 @@ def get_option_instruments(url):
   """
 
   conn = sqlite3.connect('robinhood.db')
-  command = "SELECT strike_price, chain_symbol, type, expiration_date, created_at\
+  command = "SELECT strike_price, chain_symbol, type, expiration_date\
     FROM option_instruments WHERE URL='{}';".format(url)
   cursor = conn.execute(command)
   all_rows = cursor.fetchall()
