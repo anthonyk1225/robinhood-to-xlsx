@@ -23,7 +23,6 @@ def create_option_instruments():
     option_instruments (
       'id' INTEGER PRIMARY KEY,
       'chain_symbol' TEXT,
-      'created_at' TEXT,
       'expiration_date' TEXT,
       'strike_price' TEXT NOT NULL,
       'type' TEXT,

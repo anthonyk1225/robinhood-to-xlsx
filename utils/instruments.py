@@ -26,7 +26,6 @@ def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
     chain_symbol = data[1]
     option_type = data[2]
     expiration_date = data[3]
-    created_at = data[4]
   else:
     print('SENDING REQUEST FOR THE OPTION INSTRUMENT URL')
     data = requests.get(link).json()
@@ -34,7 +33,6 @@ def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
     chain_symbol = data['chain_symbol']
     option_type = data['type']
     expiration_date = data['expiration_date']
-    created_at = data['created_at']
 
     try:
       create_option_instruments(
@@ -43,7 +41,6 @@ def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
         chain_symbol,
         option_type,
         expiration_date,
-        created_at,
       )
     except Exception as e:
       print('There was an error creating an instrument', str(e))
@@ -53,5 +50,4 @@ def handle_fetched_option_instrument_data(fetched_option_instrument_data, link):
     chain_symbol,
     option_type,
     expiration_date,
-    created_at,
   )

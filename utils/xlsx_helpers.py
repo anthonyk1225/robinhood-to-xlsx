@@ -31,8 +31,7 @@ def events(file_results):
       (item['strike_price'],
       item['chain_symbol'],
       item['option_type'],
-      item['expiration_date'],
-      item['created_at']) = instrument_values
+      item['expiration_date']) = instrument_values
 
       events.append(item)
   return events
@@ -46,11 +45,7 @@ def events_orders(file_results):
       fetched_row = get_option_instruments(option_instrument)
       instrument_values = handle_fetched_option_instrument_data(fetched_row, option_instrument)
 
-      (strike_price,
-      chain_symbol,
-      option_type,
-      expiration_date,
-      created_at) = instrument_values
+      strike_price, chain_symbol = instrument_values[0], instrument_values[1]
 
       shares = float(item['quantity']) * 100
       fees = (float(strike_price) * shares) - float(item['total_cash_amount'])
@@ -78,7 +73,7 @@ def options(file_results):
         option = {}
         option['opening_strategy'] = item['opening_strategy'] or 'None'
         option['closing_strategy'] = item['closing_strategy'] or 'None'
-        option['created_at'] = item['created_at']
+        option['updated_at'] = item['updated_at']
 
         try:
           option_instrument_url = leg["option"]
@@ -93,8 +88,7 @@ def options(file_results):
           (option['strike_price'],
           option['chain_symbol'],
           option['option_type'],
-          option['expiration_date'],
-          instrument_created_at) = option_instrument_values
+          option['expiration_date']) = option_instrument_values
 
           total_quantity = 0
           total_price = 0
@@ -128,8 +122,7 @@ def events_options(file_results):
       (strike_price,
       chain_symbol,
       option_type,
-      expiration_date,
-      created_at) = instrument_values
+      expiration_date) = instrument_values
 
       direction = item['direction']
       if direction == "debit":
@@ -141,7 +134,7 @@ def events_options(file_results):
         direction = "sell"
 
       event_option = {
-        "created_at": expiration_date,
+        "updated_at": item["updated_at"],
         "expiration_date": expiration_date,
         "strike_price": strike_price,
         "chain_symbol": chain_symbol,

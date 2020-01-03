@@ -25,7 +25,6 @@ option_instruments = [
   { "name": 'strike_price', "width": 15, "formatting": currency, "cell_type": "number" },
   { "name": 'option_type', "width": 15, "formatting": {}, "cell_type": "string" },
   { "name": 'expiration_date', "width": 15, "formatting": {}, "cell_type": "string" },
-  { "name": 'created_at', "width": 15, "formatting": {}, "cell_type": "string" },
 ]
 
 # referrals
@@ -74,6 +73,7 @@ selected_keys_options = [
   { "name": "premium", "width": 15, "formatting": currency, "cell_type": "number" },
   { "name": "processed_premium", "width": 15, "formatting": currency, "cell_type": "number" },
   { "name": "quantity", "width": 15, "formatting": {}, "cell_type": "number" },
+  { "name": 'updated_at', "width": 15, "formatting": {}, "cell_type": "string" },
   *option_instruments,
 ]
 
@@ -117,7 +117,7 @@ selected_entity_keys = {
 
 entity_sort_on = {
   "events": ("chain_symbol", "expiration_date"),
-  "options": ("chain_symbol", "created_at"),
+  "options": ("chain_symbol", "updated_at"),
   "orders": ("symbol", "last_transaction_at"),
   "dividends": ("symbol", "payable_date"),
 }
