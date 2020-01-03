@@ -20,15 +20,11 @@ def aggregate_data(data):
       aggregates[symbol]['equity'] += price * quantity
       aggregates[symbol]['quantity'] += quantity
     else:
-      if aggregates[symbol]['quantity'] == 0:
-        # Referral with no buy and now we must sell
-        aggregates[symbol]['realized_gain'] += (price * quantity) - fees
-      else:
-        equity_average = aggregates[symbol]['equity'] / aggregates[symbol]['quantity']
-        equity_to_sell = equity_average * quantity
-        aggregates[symbol]['quantity'] -= quantity
-        aggregates[symbol]['equity'] -= equity_to_sell
-        aggregates[symbol]['realized_gain'] += ((price * quantity) - fees) - equity_to_sell
+      equity_average = aggregates[symbol]['equity'] / aggregates[symbol]['quantity']
+      equity_to_sell = equity_average * quantity
+      aggregates[symbol]['quantity'] -= quantity
+      aggregates[symbol]['equity'] -= equity_to_sell
+      aggregates[symbol]['realized_gain'] += ((price * quantity) - fees) - equity_to_sell
 
   return aggregates
 
