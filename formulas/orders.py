@@ -8,54 +8,32 @@ def aggregate_data(data):
     fees = float(row['fees'])
     quantity = float(row['quantity'])
     price = float(row['price'])
-    side = row['side']
 
     if symbol not in aggregates:
       aggregates[symbol] = {
-        'buy': {
-          'equity': 0,
-          'quantity': 0,
-        },
-        'sell': {
-          'equity': 0,
-          'quantity': 0,
-        },
+        'realized_gain': 0,
+        'equity': 0,
+        'quantity': 0,
       }
 
-    aggregates[symbol][side]['equity'] += (price * quantity) - fees
-    aggregates[symbol][side]['quantity'] += quantity
+    if row['side'] == 'buy':
+      aggregates[symbol]['equity'] += price * quantity
+      aggregates[symbol]['quantity'] += quantity
+    else:
+      if aggregates[symbol]['quantity'] == 0:
+        # Referral with no buy and now we must sell
+        aggregates[symbol]['realized_gain'] += (price * quantity) - fees
+      else:
+        equity_average = aggregates[symbol]['equity'] / aggregates[symbol]['quantity']
+        equity_to_sell = equity_average * quantity
+        aggregates[symbol]['quantity'] -= quantity
+        aggregates[symbol]['equity'] -= equity_to_sell
+        aggregates[symbol]['realized_gain'] += ((price * quantity) - fees) - equity_to_sell
 
   return aggregates
 
-def get_company_totals(totals):
-  buy_quantity = totals['buy']['quantity']
-  sell_quantity = totals['sell']['quantity']
-  shares_held = buy_quantity - sell_quantity
-
-  buy_equity = totals['buy']['equity']
-  sell_equity = totals['sell']['equity']
-
-  average_buy_price = 0 if buy_quantity == 0 else buy_equity / buy_quantity
-  average_sell_price = 0 if sell_quantity == 0 else sell_equity / sell_quantity
-
-  buy_total, sell_total, current_equity = 0, 0, 0
-
-  if buy_quantity >= sell_quantity:
-    buy_total = sell_quantity * average_buy_price
-    sell_total = sell_quantity * average_sell_price
-    current_equity = average_buy_price * shares_held
-  else:
-    buy_total = buy_quantity * average_buy_price
-    sell_total = buy_quantity * average_sell_price
-    current_equity = average_sell_price * shares_held
-
-  return {
-    'realized_gain': sell_total - buy_total,
-    'quantity': shares_held,
-    'equity': current_equity,
-  }
-
 def write_aggregates(worksheet, workbook, data):
+  # can do more with this data than just get realized
   aggregates = aggregate_data(data)
 
   data_length = len(aggregates)
@@ -98,11 +76,10 @@ def write_aggregates(worksheet, workbook, data):
 
   row = starting_row + 1
   for k, v in aggregates.items():
-    totals = get_company_totals(v)
     worksheet.write(f"A{row}", k)
-    worksheet.write(f"B{row}", totals['realized_gain'], money_format)
-    worksheet.write(f"C{row}", totals['quantity'])
-    worksheet.write(f"D{row}", totals['equity'], money_format)
+    worksheet.write(f"B{row}", v['realized_gain'], money_format)
+    worksheet.write(f"C{row}", v['quantity'])
+    worksheet.write(f"D{row}", v['equity'], money_format)
     row += 1
 
 def handle_formulas(worksheet, workbook, data):
