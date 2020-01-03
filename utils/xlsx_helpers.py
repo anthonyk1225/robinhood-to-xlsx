@@ -60,7 +60,7 @@ def events_orders(file_results):
         "fees": fees,
         "side": side,
         "quantity": shares,
-        "settlement_date": expiration_date,
+        "last_transaction_at": item["updated_at"],
         "price": strike_price,
         "simple_name": f"Events ({item['type']})",
         "symbol": chain_symbol,
@@ -163,7 +163,6 @@ def orders(file_results):
   for item in file_results:
     if item['state'] == 'filled':
       executions = item['executions'][0]
-      item['settlement_date'] = executions['settlement_date']
       item['price'] = executions['price']
       try:
         instrument = item['instrument']
@@ -189,7 +188,7 @@ def referrals(file_results):
             stock["fees"] = "0"
             stock["side"] = "buy"
             stock["price"] = stock["cost_basis"]
-            stock["settlement_date"] = stock["received_at"]
+            stock["last_transaction_at"] = stock["received_at"]
             referrals.append(stock)
 
   return referrals

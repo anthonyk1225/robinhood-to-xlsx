@@ -56,8 +56,8 @@ selected_keys_orders = [
   { "name": 'fees', "width": 10, 'formatting': currency, "cell_type": "number" },
   { "name": 'side', "width": 10, 'formatting': {}, "cell_type": "string" },
   { "name": 'quantity', "width": 10, 'formatting': {}, "cell_type": "number" },
+  { "name": 'last_transaction_at', "width": 15, 'formatting': {}, "cell_type": "string" },
   # executions
-  { "name": 'settlement_date', "width": 15, 'formatting': {}, "cell_type": "string" },
   { "name": 'price', "width": 10, 'formatting': currency, "cell_type": "number" },
   *instruments,
 ]
@@ -118,7 +118,7 @@ selected_entity_keys = {
 entity_sort_on = {
   "events": ("chain_symbol", "expiration_date"),
   "options": ("chain_symbol", "created_at"),
-  "orders": ("symbol", "settlement_date"),
+  "orders": ("symbol", "last_transaction_at"),
   "dividends": ("symbol", "payable_date"),
 }
 
