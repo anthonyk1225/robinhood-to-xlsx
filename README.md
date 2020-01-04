@@ -75,6 +75,8 @@ After all of the rows get written, the forumlas that are assinged in the respect
 When using this app, your account's devices will update and look something like this.
 ![](robinhood-devices.png)
 
-## Contributing
+## Contributing & contributers
+
+- @kfchou - tons of testing and providing great datasets
 
 Feel free to leave a pull request, or raise issues for any topic you may have.
