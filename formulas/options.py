@@ -11,24 +11,28 @@ def aggregate_data(data):
     quantity = float(row['quantity'])
     opening_strategy = row['opening_strategy']
     closing_strategy = row['closing_strategy']
+    expiration_date = row['expiration_date']
 
     if symbol not in aggregates:
       aggregates[symbol] = {
         "realized_gain": 0,
       }
 
+    if expiration_date not in aggregates[symbol]:
+      aggregates[symbol][expiration_date] = {}
+
     if opening_strategy != "None":
       direction_total = 1 if direction == "sell" else -1
-      if strike_price not in aggregates[symbol]:
-        aggregates[symbol][strike_price] = {
+      if strike_price not in aggregates[symbol][expiration_date]:
+        aggregates[symbol][expiration_date][strike_price] = {
           "total": (premium * quantity) * direction_total,
           "quantity": quantity
         }
       else:
-        aggregates[symbol][strike_price]["total"] += ((premium * quantity) * direction_total)
-        aggregates[symbol][strike_price]["quantity"] += quantity
+        aggregates[symbol][expiration_date][strike_price]["total"] += ((premium * quantity) * direction_total)
+        aggregates[symbol][expiration_date][strike_price]["quantity"] += quantity
     elif closing_strategy != "None":
-      aggregate_strike = aggregates[symbol][strike_price]
+      aggregate_strike = aggregates[symbol][expiration_date][strike_price]
       strike_total = aggregate_strike['total']
       strike_quantity = aggregate_strike['quantity']
       avg_price = strike_total / strike_quantity
@@ -38,9 +42,9 @@ def aggregate_data(data):
       else:
         p_l = (avg_price * quantity) + (premium * quantity)
 
-      aggregates[symbol][strike_price]["total"] -= (avg_price * quantity)
+      aggregates[symbol][expiration_date][strike_price]["total"] -= (avg_price * quantity)
       aggregates[symbol]["realized_gain"] += p_l
-      aggregates[symbol][strike_price]["quantity"] -= quantity
+      aggregates[symbol][expiration_date][strike_price]["quantity"] -= quantity
     else:
       print("No strategy found for leg")
 
@@ -87,17 +91,19 @@ def write_aggregates(worksheet, workbook, data):
   )
 
   row = starting_row + 1
+
   for k, v in aggregates.items():
     total = 0
     quantity = 0
     for j, x in v.items():
       if type(x) is dict:
-        total += x["total"]
-        quantity += x["quantity"]
+        for a, b in x.items():
+          total += b["total"]
+          quantity += b["quantity"]
     worksheet.write(f"A{row}", k)
     worksheet.write(f"B{row}", v['realized_gain'], money_format)
     worksheet.write(f"C{row}", quantity)
-    worksheet.write(f"D{row}", total * -1, money_format)
+    worksheet.write(f"D{row}", total, money_format)
     row += 1
 
 def handle_formulas(worksheet, workbook, data):
