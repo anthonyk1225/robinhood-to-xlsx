@@ -2,7 +2,8 @@ import json, os
 from settings import entity_filenames,\
   entity_directories,\
     selected_entity_keys,\
-      entity_sort_on
+      entity_sort_on,\
+        entity_missing_directories
 from utils.file_io import\
   create_workbook,\
     create_worksheet,\
@@ -52,6 +53,15 @@ def run(entity):
       if f.name.endswith('.json'):
         file_data = json.loads(f.read())
         file_results = file_results + file_data['results']
+
+  # for missing data from RH
+  if entity == "orders" or entity == "options":
+    missing_directory = entity_missing_directories[entity]
+    for filename in os.listdir(missing_directory):
+      with open(missing_directory + filename) as f:
+        if f.name.endswith('.json'):
+          file_data = json.loads(f.read())
+          file_results = file_results + file_data['results']
 
   filtered_data = entity_helpers[entity](file_results)
 
