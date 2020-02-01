@@ -61,7 +61,12 @@ Good question. This will allow you to easily download your history from robinhoo
 
 When exported, it will have aggregated data such as **total P/L** or **Most successful company traded**(Coming soon).
 
-Of course, you will be able to amend the file to your liking afterwards as well. You can even adjust the controller files & settings, in case you would like it to be a staple in your exports. 
+Of course, you will be able to amend the file to your liking afterwards as well. You can even adjust the controller files & settings, in case you would like it to be a staple in your exports.
+
+## Missing Data
+I became aware of this a while back when looking at the aggregation within this app. There was a leg actually missing from my pulled RH history. I emailed customer service and they provided me with a transaction line item of the missing trade.
+
+If this happens to you, you can add files to the respective folders within `missing_data` and fill in what's omitted. It might be a bit of a pain especially with options. You'll need to make sure you include the correct `instrument_url` in order for it to be accurate when tallying P/L.
 
 ## Settings
 The `settings.py` file contains what data the excel file will contain. For example, if you would like to include more information in the export to dividends, all you need to do is adjust `selected_keys_dividends`. Same goes for if you would like to remove a column.  You can also adjust the width of the columns by adjusting the width field for each respective dict.
