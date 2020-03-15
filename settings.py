@@ -50,7 +50,6 @@ selected_keys_dividends = [
 
 history_endpoint_orders = f"{base_url}/orders/"
 json_directory_orders = 'data/orders/'
-json_directory_orders_missing = 'missing_data/orders/'
 xlsx_filename_orders = 'xlsx/orders.xlsx'
 selected_keys_orders = [
   { "name": 'fees', "width": 10, 'formatting': currency, "cell_type": "number" },
@@ -66,7 +65,6 @@ selected_keys_orders = [
 
 history_endpoint_options = f"{base_url}/options/orders/"
 json_directory_options = 'data/options/'
-json_directory_options_missing = 'missing_data/options/'
 xlsx_filename_options = 'xlsx/options.xlsx'
 selected_keys_options = [
   { "name": "opening_strategy", "width": 15, "formatting": {}, "cell_type": "string" },
@@ -108,11 +106,6 @@ entity_directories = {
   "orders": json_directory_orders,
   "dividends": json_directory_dividends,
   "referrals": json_directory_referrals,
-}
-
-entity_missing_directories = {
-  "options": json_directory_options_missing,
-  "orders": json_directory_orders_missing,
 }
 
 selected_entity_keys = {
