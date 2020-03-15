@@ -68,7 +68,7 @@ def options(file_results):
   options = []
 
   for item in file_results:
-    if item['state'] == 'filled':
+    if item['state'] == 'filled' or len(item['legs'][0]['executions']) > 0:
       for leg in item['legs']:
         option = {}
         option['opening_strategy'] = item['opening_strategy'] or 'None'
@@ -154,7 +154,7 @@ def orders(file_results):
   orders = []
 
   for item in file_results:
-    if item['state'] == 'filled':
+    if item['state'] == 'filled' or len(item['executions']) > 0:
       executions = item['executions'][0]
       item['price'] = executions['price']
       try:
