@@ -33,14 +33,14 @@ username = "" # Your robinhood username or email
 password = "" # Your robinhood password
 
 # should also be generated, but needs to be found for now
-device_token = "" # Your device token in the headers
+device_id = "" # Your device id in the headers
 
 ```
 - `(venv) $ touch credentials.py` - for unix users otherwise manually create the file
 - Update `username="yourusername"`, `password="yourpassword"`
 - Log in to robinhood and open up the inspector (`cmd+opt+i` on mac)
-- Type `document.cookie` in the console and copy your `device_token`
-- Update `device_token="your-device-token"` in `credentials.py`
+- Type `document.cookie` in the console and copy your `device_id`
+- Update `device_id="your-device-id"` in `credentials.py`
 
 ## Running the app
 

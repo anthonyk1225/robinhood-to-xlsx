@@ -1,6 +1,6 @@
 import requests
 from settings import base_url, client_id, robinhood_version, oauth_url
-from credentials import username, password, device_token
+from credentials import username, password, device_id
 # from utils.device_token import generate_device_token
 
 from sql.operations.authorization import\
@@ -19,7 +19,7 @@ def login(grant_type, mfa_code="", refresh_token=""):
 
   json = {
     "client_id": client_id,
-    "device_token": device_token,
+    "device_token": device_id,
     "expires_in": 86400,
     "grant_type": grant_type,
     "password": password,
@@ -76,7 +76,11 @@ def create_headers():
   auth_tokens = get_auth_tokens()
 
   if len(auth_tokens) == 0:
-    access_token, refresh_token = generate_auth_tokens()
+    try:
+      access_token, refresh_token = generate_auth_tokens()
+    except Exception as e:
+      print(e)
+      return None
     create_authorization(access_token, refresh_token)
     return { "Authorization": 'Bearer {token}'.format(token=access_token) }
 
