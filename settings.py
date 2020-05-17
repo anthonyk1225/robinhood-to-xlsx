@@ -56,7 +56,6 @@ selected_keys_orders = [
   { "name": 'side', "width": 10, 'formatting': {}, "cell_type": "string" },
   { "name": 'quantity', "width": 10, 'formatting': {}, "cell_type": "number" },
   { "name": 'last_transaction_at', "width": 15, 'formatting': {}, "cell_type": "string" },
-  # executions
   { "name": 'price', "width": 10, 'formatting': currency, "cell_type": "number" },
   *instruments,
 ]

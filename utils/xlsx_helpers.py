@@ -155,8 +155,8 @@ def orders(file_results):
 
   for item in file_results:
     if item['state'] == 'filled' or len(item['executions']) > 0:
-      executions = item['executions'][0]
-      item['price'] = executions['price']
+      item['quantity'] = item['cumulative_quantity']
+      item['price'] = item['average_price']
       try:
         instrument = item['instrument']
         fetched_row = get_instruments(instrument)
