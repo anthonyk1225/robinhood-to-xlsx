@@ -130,8 +130,8 @@ def events_options(file_results):
       else:
         direction = "sell"
 
-      if item["type"] == "exercise":
-        direction = "sell"
+      # if item["type"] == "exercise":
+      #   direction = "sell"
 
       event_option = {
         "updated_at": item["updated_at"],
