@@ -32,19 +32,22 @@ def aggregate_data(data):
         aggregates[symbol][expiration_date][strike_price]["total"] += ((premium * quantity) * direction_total)
         aggregates[symbol][expiration_date][strike_price]["quantity"] += quantity
     elif closing_strategy != "None":
-      aggregate_strike = aggregates[symbol][expiration_date][strike_price]
-      strike_total = aggregate_strike['total']
-      strike_quantity = aggregate_strike['quantity']
-      avg_price = strike_total / strike_quantity
+      try:
+        aggregate_strike = aggregates[symbol][expiration_date][strike_price]
+        strike_total = aggregate_strike['total']
+        strike_quantity = aggregate_strike['quantity']
+        avg_price = strike_total / strike_quantity
 
-      if direction == "buy":
-        p_l = (avg_price * quantity) - (premium * quantity)
-      else:
-        p_l = (avg_price * quantity) + (premium * quantity)
+        if direction == "buy":
+          p_l = (avg_price * quantity) - (premium * quantity)
+        else:
+          p_l = (avg_price * quantity) + (premium * quantity)
 
-      aggregates[symbol][expiration_date][strike_price]["total"] -= (avg_price * quantity)
-      aggregates[symbol]["realized_gain"] += p_l
-      aggregates[symbol][expiration_date][strike_price]["quantity"] -= quantity
+        aggregates[symbol][expiration_date][strike_price]["total"] -= (avg_price * quantity)
+        aggregates[symbol]["realized_gain"] += p_l
+        aggregates[symbol][expiration_date][strike_price]["quantity"] -= quantity
+      except ZeroDivisionError:
+        print("There was an error tallying up profit/loss in options")
     else:
       print("No strategy found for leg")
 

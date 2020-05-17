@@ -20,11 +20,14 @@ def aggregate_data(data):
       aggregates[symbol]['equity'] += price * quantity
       aggregates[symbol]['quantity'] += quantity
     else:
-      equity_average = aggregates[symbol]['equity'] / aggregates[symbol]['quantity']
-      equity_to_sell = equity_average * quantity
-      aggregates[symbol]['quantity'] -= quantity
-      aggregates[symbol]['equity'] -= equity_to_sell
-      aggregates[symbol]['realized_gain'] += ((price * quantity) - fees) - equity_to_sell
+      try:
+        equity_average = aggregates[symbol]['equity'] / aggregates[symbol]['quantity']
+        equity_to_sell = equity_average * quantity
+        aggregates[symbol]['quantity'] -= quantity
+        aggregates[symbol]['equity'] -= equity_to_sell
+        aggregates[symbol]['realized_gain'] += ((price * quantity) - fees) - equity_to_sell
+      except ZeroDivisionError:
+        print("There was an error tallying up profit/loss in orders")
 
   return aggregates
 
