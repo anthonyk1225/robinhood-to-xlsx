@@ -180,7 +180,8 @@ def referrals(file_results):
             stock['simple_name'] = "Referral Bonus"
             stock["fees"] = "0"
             stock["side"] = "buy"
-            stock["price"] = stock["cost_basis"]
+            # stock["price"] = stock["cost_basis"]
+            stock["price"] = "0"
             stock["last_transaction_at"] = stock["received_at"]
             referrals.append(stock)
 
