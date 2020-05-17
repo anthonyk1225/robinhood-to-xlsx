@@ -34,7 +34,6 @@ password = "" # Your robinhood password
 
 # should also be generated, but needs to be found for now
 device_id = "" # Your device id in the headers
-
 ```
 - `(venv) $ touch credentials.py` - for unix users otherwise manually create the file
 - Update `username="yourusername"`, `password="yourpassword"`
@@ -79,7 +78,7 @@ After all of the rows get written, the forumlas that are assinged in the respect
 When using this app, your account's devices will update and look something like this.
 ![](images/robinhood-devices.png)
 
-## Contributing & contributers
+## Contributing
 
 - @kfchou - tons of testing and providing great datasets
 
