@@ -10,6 +10,7 @@ from utils.file_io import\
         write_worksheet_rows
 from utils.xlsx_helpers import entity_helpers
 from formulas.index import formula_pipelines
+from utils.splits import handle_splits
 
 def handle_events(entity):
   file_results = []
@@ -32,7 +33,7 @@ def handle_referrals():
       if f.name.endswith('.json'):
         file_data = json.loads(f.read())
         file_results = file_results + file_data['results']
-    
+  
   return entity_helpers['referrals'](file_results)
 
 def run(entity):
@@ -56,8 +57,9 @@ def run(entity):
   filtered_data = entity_helpers[entity](file_results)
 
   if entity == "orders":
-    new_filered_data = handle_referrals()
-    filtered_data = filtered_data + new_filered_data
+    referrals = handle_referrals()
+    splits = handle_splits(filtered_data)
+    filtered_data += referrals + splits
 
   if entity == "orders" or entity == "options":
     new_filtered_data = handle_events(entity)
