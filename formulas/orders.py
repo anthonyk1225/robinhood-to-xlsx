@@ -29,6 +29,7 @@ def aggregate_data(data):
       rounded_quantity = round(new_quantity)
 
       if rounded_quantity == 0:
+        # TODO: need to grab what the price was at this point
         aggregates[symbol]["quantity"] = 0
         aggregates[symbol]['equity'] = 0
         continue
