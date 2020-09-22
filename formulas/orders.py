@@ -8,15 +8,40 @@ def aggregate_data(data):
     fees = float(row['fees'])
     quantity = float(row['quantity'])
     price = float(row['price'])
+    is_split = row["simple_name"] == "split" or row["simple_name"] == "reverse split"
 
     if symbol not in aggregates:
+      if is_split:
+        continue
       aggregates[symbol] = {
         'realized_gain': 0,
         'equity': 0,
         'quantity': 0,
       }
 
-    if row['side'] == 'buy':
+    if is_split:
+      item = aggregates[symbol]
+      if aggregates[symbol]["quantity"] == 0:
+        continue
+
+      new_quantity = item["quantity"] * row["quantity"]
+
+      rounded_quantity = round(new_quantity)
+
+      if rounded_quantity == 0:
+        # TODO: need to grab what the price was at this point
+        aggregates[symbol]["quantity"] = 0
+        aggregates[symbol]['equity'] = 0
+        continue
+
+      quantity_difference = round(new_quantity - rounded_quantity, 2)
+      price_per_share = round(item["equity"] / new_quantity, 2)
+      cash = round(quantity_difference * price_per_share, 2)
+
+      aggregates[symbol]["quantity"] = rounded_quantity
+      aggregates[symbol]['realized_gain'] += cash
+
+    elif row['side'] == 'buy':
       aggregates[symbol]['equity'] += price * quantity
       aggregates[symbol]['quantity'] += quantity
     else:
