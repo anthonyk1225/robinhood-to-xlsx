@@ -26,7 +26,7 @@ def aggregate_data(data):
         aggregates[symbol]['quantity'] -= quantity
         aggregates[symbol]['equity'] -= equity_to_sell
         aggregates[symbol]['realized_gain'] += ((price * quantity) - fees) - equity_to_sell
-      except ZeroDivisionError:
+      except:
         print("There was an error tallying up profit/loss in orders")
 
   return aggregates

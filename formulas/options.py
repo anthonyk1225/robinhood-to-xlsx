@@ -46,7 +46,9 @@ def aggregate_data(data):
         aggregates[symbol][expiration_date][strike_price]["total"] -= (avg_price * quantity)
         aggregates[symbol]["realized_gain"] += p_l
         aggregates[symbol][expiration_date][strike_price]["quantity"] -= quantity
-      except ZeroDivisionError:
+      except:
+        # TODO: There are situations where the strike changes on the
+        # option contract and we won't be able to find it in the dict
         print("There was an error tallying up profit/loss in options")
     else:
       print("No strategy found for leg")
