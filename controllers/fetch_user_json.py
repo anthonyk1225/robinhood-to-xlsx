@@ -3,8 +3,17 @@ from utils.authentication import create_headers
 from sql.db import run as create_tables
 from settings import history_endpoint_referrals
 
+class TableCreator:
+  def __init__(self):
+    self.was_created = False
+
+tables = TableCreator()
+
 def run(report):
-  create_tables()
+  if tables.was_created == False:
+    create_tables()
+    tables.was_created = True
+
   headers = create_headers()
   counter = 1
   has_next = True
