@@ -7,6 +7,6 @@ PyInquirer==1.0.3
 regex==2019.11.1
 requests==2.22.0
 six==1.12.0
-urllib3==1.25.8
+urllib3==1.26.5
 wcwidth==0.1.7
 XlsxWriter==1.2.2
